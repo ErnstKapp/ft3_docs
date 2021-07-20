@@ -1,0 +1,359 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rell Integration &#8212; FT3-Documentation what documentation</title>
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Single Sign-on (SSO)" href="ft3-single-sign-on.html" />
+    <link rel="prev" title="Javascript library" href="ft3-javascript-library.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="rell-integration">
+<h1>Rell Integration<a class="headerlink" href="#rell-integration" title="Permalink to this headline">¶</a></h1>
+<p>In the bootstrap project, <code class="docutils literal notranslate"><span class="pre">rell/src</span></code> directory is configurated to be the rell project’s root module. <code class="docutils literal notranslate"><span class="pre">rell/src/lib/ft3</span></code> directory contains the FT3 module.</p>
+<p>We also provided a <code class="docutils literal notranslate"><span class="pre">rell/src/module.rell</span></code> file with some template code which could serve as an entry point for your dapp, although you are free to choose any module structure to your liking.</p>
+<div class="section" id="defining-dapp-account-entity">
+<h2>Defining dapp_account entity<a class="headerlink" href="#defining-dapp-account-entity" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">account</span></code> entity provided by <code class="docutils literal notranslate"><span class="pre">.lib.ft3.account</span></code> module can be used for account management. But your dapp might need to record more information about the user, like username, email address, etc. We can add an an entity to record those information.</p>
+<p>An example dapp’s account could be defined as:</p>
+<div class="highlight-rell notranslate"><div class="highlight"><pre><span></span>import acc: .lib.ft3.account;
+
+entity dapp_account {
+  key account: acc.account;
+  key first_name: text;
+  key last_name: text;
+  index age: integer;
+}
+</pre></div>
+</div>
+<p>In this user model, there is no public key or user ID. Those details are provided by <code class="docutils literal notranslate"><span class="pre">acc.account</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">acc.account</span></code> has an <code class="docutils literal notranslate"><span class="pre">id</span></code> property which uniquely identifies an account, and access is controlled by <code class="docutils literal notranslate"><span class="pre">acc.account_auth_descriptor</span></code> which include user’s public key.</p>
+<p>The underlying structure of <code class="docutils literal notranslate"><span class="pre">acc.account</span></code> and <code class="docutils literal notranslate"><span class="pre">acc.account_auth_descriptor</span></code> is explained in <a class="reference internal" href="ft3-features.html#ft3-account-management"><span class="std std-ref">Account Management</span></a>.</p>
+<p>After <code class="docutils literal notranslate"><span class="pre">dapp_account</span></code> entity is defined, the next step is to define operation used to create an instance of <code class="docutils literal notranslate"><span class="pre">dapp_account</span></code>:</p>
+<div class="highlight-rell notranslate"><div class="highlight"><pre><span></span>operation create_dapp_account(
+  firstname: text,
+  lastname: text;
+  age: integer;
+  user_auth: acc.auth_descriptor
+) {
+  val account_id = acc.create_account_with_auth(user_auth);
+  create dapp_account (
+    first_name = firstname,
+    last_name = lastname,
+    age,
+    acc.account @ { account_id }
+  );
+}
+
+query get_dapp_accounts() {
+  return dapp_account @? {} ( id = dapp_account.account.id, first_name = .first_name, last_name = .last_name, age = .age);
+}
+</pre></div>
+</div>
+<p>Restart the node for changes to take effect. Because we have changed database structure, we need to add <code class="docutils literal notranslate"><span class="pre">-W</span></code> option to delete the database and add new <code class="docutils literal notranslate"><span class="pre">dapp_account</span></code> table:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>postchain/bin/run-node.sh &lt;dapp_name&gt; -W
+</pre></div>
+</div>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>Make sure to update your client’s blockchainRID config with the newly generated blockchainRID</p>
+</div>
+<p>On the client side, operation can be called using <code class="docutils literal notranslate"><span class="pre">ft3-lib</span></code> (or <code class="docutils literal notranslate"><span class="pre">postchain-client</span></code>):</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="nx">DirectoryService</span> <span class="nx">from</span> <span class="s1">&#39;./lib/directory-service&#39;</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">util</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;postchain-client&#39;</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">blockchainRID</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;../configs/constants&#39;</span><span class="p">;</span>
+
+<span class="k">import</span> <span class="p">{</span>
+  <span class="nx">op</span><span class="p">,</span>
+  <span class="nx">Blockchain</span><span class="p">,</span>
+  <span class="nx">SingleSignatureAuthDescriptor</span><span class="p">,</span>
+  <span class="nx">FlagsType</span><span class="p">,</span>
+  <span class="nx">User</span>
+<span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;ft3-lib&#39;</span><span class="p">;</span>
+
+<span class="kd">const</span> <span class="nx">keyPair</span> <span class="o">=</span> <span class="nx">util</span><span class="p">.</span><span class="nx">makeKeyPair</span><span class="p">();</span>
+<span class="kd">const</span> <span class="nx">user</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">User</span><span class="p">(</span>
+  <span class="nx">keyPair</span><span class="p">,</span>
+  <span class="k">new</span> <span class="nx">SingleSignatureAuthDescriptor</span><span class="p">(</span>
+    <span class="nx">keyPair</span><span class="p">.</span><span class="nx">pubKey</span><span class="p">,</span>
+    <span class="p">[</span><span class="nx">FlagsType</span><span class="p">.</span><span class="nx">Account</span><span class="p">,</span> <span class="nx">FlagsType</span><span class="p">.</span><span class="nx">Transfer</span><span class="p">]</span>
+  <span class="p">)</span>
+<span class="p">);</span>
+
+<span class="kd">const</span> <span class="nx">blockchain</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">Blockchain</span><span class="p">.</span><span class="nx">initialize</span><span class="p">(</span>
+  <span class="nx">blockchainRID</span><span class="p">,</span>
+  <span class="k">new</span> <span class="nx">DirectoryService</span><span class="p">()</span>
+<span class="p">);</span>
+<span class="kd">const</span> <span class="nx">session</span> <span class="o">=</span> <span class="nx">blockchain</span><span class="p">.</span><span class="nx">newSession</span><span class="p">(</span><span class="nx">user</span><span class="p">);</span>
+
+<span class="k">await</span> <span class="nx">session</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">op</span><span class="p">(</span>
+  <span class="s1">&#39;create_dapp_account&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;John&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;Doe&#39;</span><span class="p">,</span>
+  <span class="mf">30</span><span class="p">,</span>
+  <span class="nx">user</span><span class="p">.</span><span class="nx">authDescriptor</span>
+<span class="p">));</span>
+</pre></div>
+</div>
+<p>We can check if <code class="docutils literal notranslate"><span class="pre">create_dapp_account</span></code> operation is executed successfully using <code class="docutils literal notranslate"><span class="pre">get_dapp_accounts</span></code> query we created:</p>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span> <span class="nx">rest</span> <span class="o">=</span> <span class="nx">pcl</span><span class="p">.</span><span class="nx">restClient</span><span class="p">.</span><span class="nx">createRestClient</span><span class="p">(</span><span class="nx">nodeApiUrl</span><span class="p">,</span> <span class="nx">blockchainRID</span><span class="p">,</span> <span class="mf">5</span><span class="p">)</span>
+
+<span class="kd">const</span> <span class="nx">gtx</span> <span class="o">=</span> <span class="nx">pcl</span><span class="p">.</span><span class="nx">gtxClient</span><span class="p">.</span><span class="nx">createClient</span><span class="p">(</span>
+  <span class="nx">rest</span><span class="p">,</span>
+  <span class="nx">Buffer</span><span class="p">.</span><span class="nx">from</span><span class="p">(</span>
+    <span class="nx">blockchainRID</span><span class="p">,</span>
+    <span class="s1">&#39;hex&#39;</span>
+  <span class="p">),</span>
+  <span class="p">[]</span>
+<span class="p">);</span>
+
+<span class="kd">const</span> <span class="nx">allDappAccoounts</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">gtx</span><span class="p">.</span><span class="nx">query</span><span class="p">(</span><span class="s1">&#39;get_dapp_accounts&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<hr class="docutils" />
+<div class="section" id="modules">
+<h2>Modules<a class="headerlink" href="#modules" title="Permalink to this headline">¶</a></h2>
+<p>In this section, we will go through some of the built-in utilities that FT3 modules provide.</p>
+<p>It should be noted that the built-in operations and queries all have matching interface in <code class="docutils literal notranslate"><span class="pre">ft3-lib</span></code> <a class="reference internal" href="ft3-javascript-library.html"><span class="doc">javascript library</span></a>.</p>
+<div class="section" id="account-module">
+<h3>Account Module<a class="headerlink" href="#account-module" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">acc:</span> <span class="pre">.lib.ft3.account;</span></code></p>
+<p><strong>Functions:</strong></p>
+<div class="highlight-rell notranslate"><div class="highlight"><pre><span></span>function create_account_with_auth (auth_descriptor): byte_array
+</pre></div>
+</div>
+<p>Create a new FT3 account using the provided <code class="docutils literal notranslate"><span class="pre">ft3.account.auth_descriptor</span></code></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">auth_descriptor</span></code>: The <code class="docutils literal notranslate"><span class="pre">auth_descriptor</span></code> used to create this account.</p></li>
+<li><p>return: <code class="docutils literal notranslate"><span class="pre">account.id</span></code> (equal to <code class="docutils literal notranslate"><span class="pre">auth_descriptor.hash()</span></code>)</p></li>
+</ul>
+<div class="highlight-rell notranslate"><div class="highlight"><pre><span></span>function auth_and_log(account_id: byte_array, auth_descriptor_id: byte_array, required_flags: list&lt;text&gt;): account
+</pre></div>
+</div>
+<p>Authorize given auth_descriptor for required authorization flags, and apply the rate limiter constrains configurated in <code class="docutils literal notranslate"><span class="pre">config.template.xml</span></code>. This is meant to be the default authorization mechanism for operations.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">account_id</span></code>: id of the account</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">auth_descriptor_id</span></code>: is equal to <code class="docutils literal notranslate"><span class="pre">auth_descriptor.hash()</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">required_flags</span></code>: list of required authorization flags (see <a class="reference internal" href="ft3-features.html#ft3-account-management"><span class="std std-ref">Account Management</span></a>)</p></li>
+<li><p>return: the account instance</p></li>
+</ul>
+<div class="highlight-rell notranslate"><div class="highlight"><pre><span></span>function require_auth (account, descriptor_id: byte_array, required_flags: list&lt;text&gt;)
+</pre></div>
+</div>
+<p>Authorize given auth_descriptor, but does not apply rate limiter’s constrains.</p>
+<div class="highlight-rell notranslate"><div class="highlight"><pre><span></span>function _add_auth_descriptor (account, auth_descriptor)
+function _delete_auth_descriptor(auth_descriptor: account_auth_descriptor)
+function _delete_all_auth_descriptors_exclude(account, auth_descriptor_id: byte_array)
+</pre></div>
+</div>
+<p>Utilities for managing auth_descriptors.</p>
+<p><strong>Operations:</strong></p>
+<div class="highlight-rell notranslate"><div class="highlight"><pre><span></span>operation delete_auth_descriptor (account_id: byte_array, auth_descriptor_id: byte_array, delete_descriptor_id: byte_array)
+
+operation delete_all_auth_descriptors_exclude(account_id: byte_array, auth_descriptor_id: byte_array)
+
+operation add_auth_descriptor (account_id: byte_array, auth_id: byte_array, new_desc: acc.auth_descriptor)
+</pre></div>
+</div>
+<p><strong>Queries:</strong></p>
+<div class="highlight-rell notranslate"><div class="highlight"><pre><span></span>query get_account_auth_descriptors(id: byte_array)
+
+query get_account_by_id(id: byte_array)
+
+query get_account_by_auth_descriptor(auth_descriptor)
+
+query get_accounts_by_participant_id(id: byte_array)
+
+query get_accounts_by_auth_descriptor_id(descriptor_id: byte_array)
+</pre></div>
+</div>
+</div>
+<div class="section" id="core-module">
+<h3>Core Module<a class="headerlink" href="#core-module" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">core:</span> <span class="pre">.lib.ft3.core;</span></code></p>
+<p><strong>Functions:</strong></p>
+<div class="highlight-rell notranslate"><div class="highlight"><pre><span></span>function register_asset (name, issuing_chain_rid: byte_array): asset
+</pre></div>
+</div>
+<p>Register a new asset on the chain.</p>
+<div class="highlight-rell notranslate"><div class="highlight"><pre><span></span>function _get_asset_balances(account_id: byte_array): list&lt;(id:byte_array,name:text,amount:integer,chain_id:byte_array)&gt;
+</pre></div>
+</div>
+<p>Get asset balance of an account.</p>
+<div class="highlight-rell notranslate"><div class="highlight"><pre><span></span>function ensure_balance(acc.account, asset): balance
+</pre></div>
+</div>
+<p>Get account’s balance of an asset, or create one if it doesn’t exist.</p>
+<div class="highlight-rell notranslate"><div class="highlight"><pre><span></span>struct xfer_input {
+  account_id: byte_array;
+  asset_id: byte_array;
+  auth_descriptor_id: byte_array;
+  amount: integer;
+  extra: map&lt;text, gtv&gt;;
+}
+
+struct xfer_output {
+  account_id: byte_array;
+  asset_id: byte_array;
+  amount: integer;
+  extra: map&lt;text, gtv&gt;;
+}
+
+function _transfer (inputs: list&lt;xfer_input&gt;, outputs: list&lt;xfer_output&gt;)
+</pre></div>
+</div>
+<p>Perform an asset transfer from accounts described in <code class="docutils literal notranslate"><span class="pre">xfer_input</span></code> to accounts in <code class="docutils literal notranslate"><span class="pre">xfer_output</span></code>.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">xfer_output.extra</span></code> map contains a <code class="docutils literal notranslate"><span class="pre">reg_auth_desc</span></code> key, then the value will be used as <code class="docutils literal notranslate"><span class="pre">auth_descriptor</span></code> to create a new account (meaning you can create a new account then transfer asset to it immediately in one transaction).</p>
+<p>Using the transaction function in Rell could look something like this:</p>
+<div class="highlight-rell notranslate"><div class="highlight"><pre><span></span>function transfer_balance(from: user_account,    //user_account being an entity with an acc.account attribute.
+                          from_auth: acc.auth_descriptor
+                          to: user_account, to_auth: acc.auth_descriptor,
+                          amount:integer){
+    val input = ft3.xfer_input(account_id = from.account.id
+                               asset_id = exampleToken.token.id,
+                               auth_descriptor_id = from_auth,
+                               amount = amount,
+                               extra = map&lt;text, gtv&gt;()
+                               );
+    val output = ft3.xfer_input(account_id = to.account.id,
+                                asset_id = exampleToken.token.id,
+                                auth_descriptor_id = to_auth,
+                                amount = amount,
+                                extra = map&lt;text, gtv&gt;()
+                             );
+     val inputs = list&lt;ft3.xfer_input&gt;();
+     inputs.add(input);
+     outputs.add(output);
+     ft3._transfer(inputs, outputs);
+}
+</pre></div>
+</div>
+<p><strong>Operations:</strong></p>
+<div class="highlight-rell notranslate"><div class="highlight"><pre><span></span>operation transfer (inputs: list&lt;ft3.xfer_input&gt;, outputs: list&lt;ft3.xfer_output&gt;)
+</pre></div>
+</div>
+<p><strong>Queries:</strong></p>
+<div class="highlight-rell notranslate"><div class="highlight"><pre><span></span>query get_asset_balances(account_id: byte_array)
+
+query get_asset_balance(account_id: byte_array, asset_id: byte_array)
+
+query get_asset_by_name(name)
+
+query get_asset_by_id(asset_id: byte_array)
+
+query get_all_assets()
+
+query get_payment_history(account_id: byte_array, after_block: integer)
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">FT3-Documentation</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="ft3-features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ft3-project-setup.html">Project Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ft3-javascript-library.html">Javascript library</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Rell Integration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#defining-dapp-account-entity">Defining dapp_account entity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#modules">Modules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#account-module">Account Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#core-module">Core Module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ft3-single-sign-on.html">Single Sign-on (SSO)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ft3-updating-a-chain.html">How to update a dapp chain</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="ft3-javascript-library.html" title="previous chapter">Javascript library</a></li>
+      <li>Next: <a href="ft3-single-sign-on.html" title="next chapter">Single Sign-on (SSO)</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2021, Ernst Kapp.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.4.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/ft3/ft3-rell-ft3-integration.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,263 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Project Setup &#8212; FT3-Documentation what documentation</title>
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Javascript library" href="ft3-javascript-library.html" />
+    <link rel="prev" title="Features" href="ft3-features.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="project-setup">
+<h1>Project Setup<a class="headerlink" href="#project-setup" title="Permalink to this headline">¶</a></h1>
+<p>In this section, we explain how to setup a project to use FT3.</p>
+<p>First let’s clone FT3’s bootstrap project repository:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>git clone https://bitbucket.org/chromawallet/develop-chromia.git
+</pre></div>
+</div>
+<p>Create a new directory for your project, and copy the <code class="docutils literal notranslate"><span class="pre">postchain</span></code> and <code class="docutils literal notranslate"><span class="pre">rell</span></code> directories over to your project. The remaining <code class="docutils literal notranslate"><span class="pre">client</span></code> contains an example for Single Sign-On feature, so we will come back to it later.</p>
+<div class="section" id="blockchain-side-setup">
+<h2>Blockchain side setup<a class="headerlink" href="#blockchain-side-setup" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="config-dapp-description">
+<h3>Config dapp description<a class="headerlink" href="#config-dapp-description" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic simple">
+<li><p>Go to <code class="docutils literal notranslate"><span class="pre">postchain/config/nodes/</span></code>, you will find a <code class="docutils literal notranslate"><span class="pre">dev</span></code> directory. This is our postchain config directory. You can rename it to whichever name matching your convention (e.g. <code class="docutils literal notranslate"><span class="pre">prod</span></code> or <code class="docutils literal notranslate"><span class="pre">dapp_name</span></code>)</p></li>
+<li><p>Inside <code class="docutils literal notranslate"><span class="pre">dev</span></code> directory, open the file <code class="docutils literal notranslate"><span class="pre">blochains/app/config.template.xml</span></code>, and change the settings for your chain:</p></li>
+</ol>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;run</span> <span class="na">wipe-db=</span><span class="s">&quot;true&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;nodes&gt;</span>
+        <span class="nt">&lt;config</span> <span class="na">src=</span><span class="s">&quot;../../node-config.properties&quot;</span> <span class="na">add-signers=</span><span class="s">&quot;true&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;/nodes&gt;</span>
+    <span class="nt">&lt;chains&gt;</span>
+        <span class="nt">&lt;chain</span> <span class="na">name=</span><span class="s">&quot;YOUR_CHAIN_NAME&quot;</span> <span class="na">iid=</span><span class="s">&quot;0&quot;</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;config</span> <span class="na">height=</span><span class="s">&quot;0&quot;</span><span class="nt">&gt;</span>
+                <span class="nt">&lt;app</span> <span class="na">module=</span><span class="s">&quot;&quot;</span><span class="nt">&gt;</span>
+                  <span class="nt">&lt;args</span> <span class="na">module=</span><span class="s">&quot;lib.ft3.core&quot;</span><span class="nt">&gt;</span>
+                      <span class="nt">&lt;arg</span> <span class="na">key=</span><span class="s">&quot;my_blockchain_name&quot;</span><span class="nt">&gt;&lt;string&gt;</span>YOUR_DAPP_NAME<span class="nt">&lt;/string&gt;&lt;/arg&gt;</span>
+                      <span class="nt">&lt;arg</span> <span class="na">key=</span><span class="s">&quot;my_blockchain_website&quot;</span><span class="nt">&gt;&lt;string&gt;</span>YOUR_DAPP_WEBSITE<span class="nt">&lt;/string&gt;&lt;/arg&gt;</span>
+                      <span class="nt">&lt;arg</span> <span class="na">key=</span><span class="s">&quot;my_blockchain_description&quot;</span><span class="nt">&gt;&lt;string&gt;</span>YOUR_DAPP_DESCRIPTION<span class="nt">&lt;/string&gt;&lt;/arg&gt;</span>
+                      <span class="nt">&lt;arg</span> <span class="na">key=</span><span class="s">&quot;rate_limit_active&quot;</span><span class="nt">&gt;&lt;int&gt;</span>1<span class="nt">&lt;/int&gt;&lt;/arg&gt;</span>
+                      <span class="nt">&lt;arg</span> <span class="na">key=</span><span class="s">&quot;rate_limit_max_points&quot;</span><span class="nt">&gt;&lt;int&gt;</span>10<span class="nt">&lt;/int&gt;&lt;/arg&gt;</span>
+                      <span class="nt">&lt;arg</span> <span class="na">key=</span><span class="s">&quot;rate_limit_recovery_time&quot;</span><span class="nt">&gt;&lt;int&gt;</span>30000<span class="nt">&lt;/int&gt;&lt;/arg&gt;</span>
+                      <span class="nt">&lt;arg</span> <span class="na">key=</span><span class="s">&quot;rate_limit_points_at_account_creation&quot;</span><span class="nt">&gt;&lt;int&gt;</span>1<span class="nt">&lt;/int&gt;&lt;/arg&gt;</span>
+                  <span class="nt">&lt;/args&gt;</span>
+                <span class="nt">&lt;/app&gt;</span>
+            <span class="nt">&lt;/config&gt;</span>
+        <span class="nt">&lt;/chain&gt;</span>
+    <span class="nt">&lt;/chains&gt;</span>
+<span class="nt">&lt;/run&gt;</span>
+</pre></div>
+</div>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">my_blockchain_name</span></code></dt><dd><p>Name of your chain.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">my_blockchain_website</span></code></dt><dd><p>“Main page” url of your dapp.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">my_blockchain_description</span></code></dt><dd><p>Description of your dapp.</p>
+</dd>
+</dl>
+<p>The following arguments is settings for the rate limiter (spam prevention). The client will accumulate one “operation point” every <code class="docutils literal notranslate"><span class="pre">rate_limit_recovery_time</span></code> milliseconds, up to <code class="docutils literal notranslate"><span class="pre">rate_limit_max_points</span></code>. One point is spent for each operation.</p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">rate_limit_active</span></code></dt><dd><p>0 for not active (no spam prevention) or 1 to acticate the rate limit.</p>
+<p>Note that even if rate limiter is not active, you must set some values in the following args.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">rate_limit_max_points</span></code></dt><dd><p>Maximum amount of operation points that is possible to accumulate (and therefore the maximum number of transactions that can be made at once)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">rate_limit_recovery_time</span></code></dt><dd><p>(In milliseconds) period of cool down before an account can receive one operation point.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">rate_limit_points_at_account_creation</span></code></dt><dd><p>How many points an account have at the moment of creation (0 is min)</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Please note that if you use Single Sign-On, an account need to perform 1 operation immediately at the moment of creation to add disposable <code class="docutils literal notranslate"><span class="pre">auth_descriptor</span></code> (eg. SSO need <code class="docutils literal notranslate"><span class="pre">rate_limit_points_at_account_creation</span></code> at minimum of 1).</p>
+<p>Refer to the <a class="reference internal" href="ft3-single-sign-on.html"><span class="doc">SSO Section</span></a> for more information.</p>
+</div>
+</div>
+<div class="section" id="database-setup">
+<h3>Database setup<a class="headerlink" href="#database-setup" title="Permalink to this headline">¶</a></h3>
+<p>We have provided a docker image of the database for ease of use:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>cd postchain
+docker image pull chromaway/postgres:2.4.0-beta
+docker-compose up
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you don’t want to use Docker, or want to setup your own database, please follow the instructions in <span class="xref std std-ref">database-setup</span>.</p>
+<p>Update the <code class="docutils literal notranslate"><span class="pre">postchain/config/nodes/dev/node-config.properties</span></code> file to match your database settings.</p>
+</div>
+</div>
+<div class="section" id="running-the-chain">
+<h3>Running the chain<a class="headerlink" href="#running-the-chain" title="Permalink to this headline">¶</a></h3>
+<p>(From root directory) start your chain:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">postchain</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">run</span><span class="o">-</span><span class="n">node</span><span class="o">.</span><span class="n">sh</span> <span class="n">dev</span>
+</pre></div>
+</div>
+<p>Replace <code class="docutils literal notranslate"><span class="pre">dev</span></code> with the name of your postchain config directory if you have renamed it.</p>
+<p>If everything is properly configured, you will soon see a success message printed to the console:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Postchain</span> <span class="n">node</span> <span class="n">launching</span> <span class="ow">is</span> <span class="n">done</span>
+</pre></div>
+</div>
+<p>Above that line you will find the generated blockchain ID of the blockchain that looks like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">INFO</span>  <span class="mi">2120</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">01</span> <span class="mi">23</span><span class="p">:</span><span class="mi">59</span><span class="p">:</span><span class="mf">59.999</span> <span class="p">[</span><span class="n">main</span><span class="p">]</span> <span class="n">BaseConfigurationDataStore</span> <span class="o">-</span> <span class="n">Creating</span> <span class="n">initial</span> <span class="n">configuration</span> <span class="k">for</span> <span class="n">chain</span> <span class="mi">1</span> <span class="k">with</span> <span class="n">BC</span> <span class="n">RID</span><span class="p">:</span> <span class="n">B61EFF348B43D7C93F67F6D2ABE17391D709A77F9A040D6309984665082DFE8A</span>
+</pre></div>
+</div>
+<p>Note down the blockchain ID, we will use it to connect to the chain.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>Postchain will generate a blockchain ID for dapp based on the dapp’s codebase.</p>
+<p>Whenever you change blockchain code of dapp, you will need to wipe database by adding the <code class="docutils literal notranslate"><span class="pre">-W</span></code> option, in order to get new blockchainID:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">postchain</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">run</span><span class="o">-</span><span class="n">node</span><span class="o">.</span><span class="n">sh</span> <span class="n">dapp_name</span> <span class="o">-</span><span class="n">W</span>
+</pre></div>
+</div>
+<p>If you missed the log in console, you can always check previous log in <code class="docutils literal notranslate"><span class="pre">logs/logfile.log</span></code> file.</p>
+</div>
+</div>
+<div class="section" id="verify-the-chain-is-working">
+<h3>Verify the chain is working<a class="headerlink" href="#verify-the-chain-is-working" title="Permalink to this headline">¶</a></h3>
+<p>Go to the <a class="reference external" href="https://explorer-testnet.chromia.com/">Chain Explorer</a>. Click the dropdown next to “Vault”, then choose “add custom chain”:</p>
+<p><img alt="Chain Explorer 1" src="../_images/chain-explorer-1.png" /></p>
+<p>In the following popup, enter your chain’s information, using information you entered in <code class="docutils literal notranslate"><span class="pre">config.template.xml</span></code> and the chain BRID:</p>
+<p><img alt="Chain Explorer 2" src="../_images/chain-explorer-2.png" /></p>
+<p>If you see the chain’s information displayed, then your chain is working properly:</p>
+<p><img alt="Chain Explorer 3" src="../_images/chain-explorer-3.png" /></p>
+<p>If chain explorer can’t connect to your chain, it indicates something is wrong with your settings from previous steps. Verify that the host and ports are correct (7743 is the default port from <code class="docutils literal notranslate"><span class="pre">node-config.properties</span></code>), and also your blockchainID.</p>
+<p>With that the blockchain side is ready, we can go on to the client side.</p>
+</div>
+</div>
+<hr class="docutils" />
+<div class="section" id="client-side-setup">
+<h2>Client side setup<a class="headerlink" href="#client-side-setup" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">client</span></code> directory you use in the bootstrap project is an example client, which will work with our current chain. In this section, we will discuss how to create our own client that connects to the chain.</p>
+<p>Create a <code class="docutils literal notranslate"><span class="pre">client</span></code> directory for your project, run <code class="docutils literal notranslate"><span class="pre">npm</span> <span class="pre">init</span></code> (or bootstrap a project using a generator, e.g. <code class="docutils literal notranslate"><span class="pre">create-react-app</span></code>).</p>
+<p>Add dependencies to the nodejs project:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">npm</span> <span class="n">i</span> <span class="o">--</span><span class="n">save</span> <span class="n">ft3</span><span class="o">-</span><span class="n">lib</span>
+<span class="n">npm</span> <span class="n">i</span> <span class="o">--</span><span class="n">save</span> <span class="n">postchain</span><span class="o">-</span><span class="n">client</span>
+</pre></div>
+</div>
+<p>Add other libraries to your liking.</p>
+<div class="section" id="set-config-variables">
+<h3>Set config variables<a class="headerlink" href="#set-config-variables" title="Permalink to this headline">¶</a></h3>
+<p>Choose your own method (e.g creating a config folder in your project and making a constants.js file in the config folder where you paste this into) to set these important config variables:</p>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="k">export</span> <span class="kd">const</span> <span class="nx">blockchainRID</span> <span class="o">=</span> <span class="s2">&quot;&lt;YOUR CHAIN BRID&gt;&quot;</span><span class="p">;</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">blockchainUrl</span> <span class="o">=</span> <span class="s2">&quot;http://localhost:7743/&quot;</span><span class="p">;</span> <span class="c1">// This is default value in node-config.properties file</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">vaultUrl</span> <span class="o">=</span> <span class="s2">&quot;https://dev.vault.chromia-development.com&quot;</span><span class="p">;</span> <span class="c1">// Vault&#39;s url for SSO</span>
+</pre></div>
+</div>
+<p>That concluded the project setup process. In next section, we will continue working with the client library and discuss the features of <code class="docutils literal notranslate"><span class="pre">ft3-lib</span></code> npm package.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">FT3-Documentation</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="ft3-features.html">Features</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Project Setup</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#blockchain-side-setup">Blockchain side setup</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#config-dapp-description">Config dapp description</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#database-setup">Database setup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#running-the-chain">Running the chain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#verify-the-chain-is-working">Verify the chain is working</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#client-side-setup">Client side setup</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#set-config-variables">Set config variables</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ft3-javascript-library.html">Javascript library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ft3-rell-ft3-integration.html">Rell Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ft3-single-sign-on.html">Single Sign-on (SSO)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ft3-updating-a-chain.html">How to update a dapp chain</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="ft3-features.html" title="previous chapter">Features</a></li>
+      <li>Next: <a href="ft3-javascript-library.html" title="next chapter">Javascript library</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2021, Ernst Kapp.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.4.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/ft3/ft3-project-setup.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,198 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Converting Chromia-Chat to FT3 &#8212; FT3-Documentation what documentation</title>
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="converting-chromia-chat-to-ft3">
+<h1>Converting Chromia-Chat to FT3<a class="headerlink" href="#converting-chromia-chat-to-ft3" title="Permalink to this headline">¶</a></h1>
+<p>In this section, we will “upgrade” the <span class="xref std std-doc">Chromia Chat Example Project</span> into a version that uses FT3.</p>
+<p>First of all, lets change the user entity to be identified by an account instead of a public key.</p>
+<div class="highlight-rell notranslate"><div class="highlight"><pre><span></span>entity user{
+     key account : lf.ft3.acc.account;
+     key name : text;
+}
+</pre></div>
+</div>
+<p>Our functions in Rell will no longer have a pubkey as the identifier of users, instead we will pass
+the account of users as parameters when writing functions. Instead of checking signers in the function, we
+will also use auth_log to make sure the right account is using the function:</p>
+<div class="highlight-rell notranslate"><div class="highlight"><pre><span></span>operation init(founder_auth: acc.auth_descriptor){
+     require( (user@*{} limit 1).size() == 0);
+     val account_id = acc.create_account_with_auth(founder_auth);
+     val founder = create user (account_id, &quot;admin&quot;);
+     create balance (founder, 100000);
+     }
+</pre></div>
+</div>
+<div class="highlight-rell notranslate"><div class="highlight"><pre><span></span>operation add_channel_member(
+          admin_auth: acc.auth_descriptor,
+          channel_name: name,member_username: text
+           ){
+    auth_and_log(get_account_by_auth_descriptor(admin_auth),
+                 admin_auth.hash(), [flagType.Account, flagType.Transaction]
+                 );
+    val admin_usr = user@{admin_account};
+    pay_fee(admin_usr, 1);
+    val channel = channel@{channel_name, .admin==user@{admin_account}};
+    create channel_member (channel, member=user@{.username == member_username});
+    }
+</pre></div>
+</div>
+</div>
+<div class="section" id="client-side">
+<h1>Client Side<a class="headerlink" href="#client-side" title="Permalink to this headline">¶</a></h1>
+<p>In our client side we will import the required ft3 dependencies and our constants</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span> <span class="nx">pcl</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;postchain-client&#39;</span><span class="p">)</span>
+<span class="kd">const</span> <span class="nx">crypto</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;crypto&#39;</span><span class="p">)</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">Postchain</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;ft3-lib&#39;</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">blockchainRID</span><span class="p">,</span> <span class="nx">blockchainUrl</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;./configs/constants&#39;</span><span class="p">;</span> <span class="c1">// these configs are set in previous section</span>
+<span class="k">import</span> <span class="p">{</span>
+<span class="nx">op</span><span class="p">,</span>
+<span class="nx">Blockchain</span><span class="p">,</span>
+<span class="nx">SingleSignatureAuthDescriptor</span><span class="p">,</span>
+<span class="nx">FlagsType</span><span class="p">,</span>
+<span class="nx">User</span>
+<span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;ft3-lib&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>And also initialize the blockchain:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span> <span class="nx">blockchain</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">Blockchain</span><span class="p">.</span><span class="nx">initialize</span><span class="p">(</span>
+<span class="nx">blockchainRID</span><span class="p">,</span>
+<span class="k">new</span> <span class="nx">DirectoryService</span><span class="p">()</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+<p>For our Javascript frontend, the init function will take the admins auth descriptor as an argument.
+For this we will make a new single signature auth descriptor and admin user</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span> <span class="nx">adminKeyPair</span> <span class="o">=</span> <span class="nx">util</span><span class="p">.</span><span class="nx">makeKeyPair</span><span class="p">();</span>
+<span class="kd">const</span> <span class="nx">admin</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">User</span><span class="p">(</span>
+        <span class="nx">adminKeyPair</span><span class="p">,</span>
+        <span class="k">new</span> <span class="nx">SingleSignatureAuthDescriptor</span><span class="p">(</span>
+                <span class="nx">adminKeyPair</span><span class="p">.</span><span class="nx">pubKey</span><span class="p">,</span>
+                <span class="p">[</span><span class="nx">FlagsType</span><span class="p">.</span><span class="nx">Account</span><span class="p">,</span> <span class="nx">FlagsType</span><span class="p">.</span><span class="nx">Transfer</span><span class="p">]</span>
+                <span class="p">)</span>
+        <span class="p">);</span>
+</pre></div>
+</div>
+<p>And then we start a new session on the blockchain with admin</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span> <span class="nx">session</span> <span class="o">=</span> <span class="nx">blockchain</span><span class="p">.</span><span class="nx">newSession</span><span class="p">(</span><span class="nx">admin</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>On the session we will call on the Rell init operation
+.. code-block:: javascript</p>
+<blockquote>
+<div><p>await session.call(op(‘init’, admin.authDescriptor));</p>
+</div></blockquote>
+<p>For our functions like create channel we will use the same method of using session.call for communication with our Rell backend</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="k">async</span> <span class="kd">function</span> <span class="nx">registerUser</span><span class="p">(</span><span class="nx">existing_user</span><span class="p">,</span> <span class="nx">new_user_keyPair</span><span class="p">,</span> <span class="nx">new_user_name</span><span class="p">,</span> <span class="nx">fee</span><span class="p">){</span>
+     <span class="kd">const</span> <span class="nx">auth_descriptor</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">SingleSignatureAuthDescriptor</span><span class="p">(</span>
+             <span class="nx">new_user_keyPair</span><span class="p">.</span><span class="nx">pubKey</span><span class="p">,</span>
+             <span class="p">[</span><span class="nx">FlagsType</span><span class="p">.</span><span class="nx">Account</span><span class="p">,</span> <span class="nx">FlagsType</span><span class="p">.</span><span class="nx">Transfer</span><span class="p">]</span>
+             <span class="p">);</span>
+     <span class="kd">const</span> <span class="nx">user</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">User</span><span class="p">(</span><span class="nx">authDescriptor</span><span class="p">,</span> <span class="nx">new_user_keyPair</span><span class="p">);</span>
+     <span class="kd">const</span> <span class="nx">session</span> <span class="o">=</span> <span class="nx">blockchain</span><span class="p">.</span><span class="nx">newSession</span><span class="p">(</span><span class="nx">existing_user</span><span class="p">);</span>
+     <span class="k">await</span> <span class="nx">session</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">op</span><span class="p">(</span><span class="s1">&#39;register_user&#39;</span><span class="p">,</span> <span class="nx">existing_user</span><span class="p">,</span> <span class="nx">user</span><span class="p">.</span><span class="nx">authDescriptor</span><span class="p">,</span> <span class="nx">new_user_name</span><span class="p">,</span> <span class="nx">fee</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">FT3-Documentation</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ft3-features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ft3-project-setup.html">Project Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ft3-javascript-library.html">Javascript library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ft3-rell-ft3-integration.html">Rell Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ft3-single-sign-on.html">Single Sign-on (SSO)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ft3-updating-a-chain.html">How to update a dapp chain</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2021, Ernst Kapp.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.4.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/ft3/ft3-chromia-chat.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

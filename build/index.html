@@ -1,0 +1,206 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Welcome to the FT3-Module’s documentation! &#8212; FT3-Documentation what documentation</title>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Features" href="ft3/ft3-features.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="welcome-to-the-ft3-module-s-documentation">
+<h1>Welcome to the FT3-Module’s documentation!<a class="headerlink" href="#welcome-to-the-ft3-module-s-documentation" title="Permalink to this headline">¶</a></h1>
+<p>FT3 is the recommended standards to handle accounts and tokens in the Chromia ecosystem. It allows dapps to make full use of Chromia Vault, including Single Sign-On (SSO), asset transfers and visibility on the Vault’s dapp explorer.</p>
+<p>FT3 consists of a Rell module which contains blockchain logic, and client side lib which provides js API for interaction with the module.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ft3/ft3-features.html">Features</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ft3/ft3-features.html#account-management">Account Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ft3/ft3-features.html#asset-management">Asset Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ft3/ft3-features.html#single-sign-on-sso">Single Sign-on (SSO)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ft3/ft3-project-setup.html">Project Setup</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ft3/ft3-project-setup.html#blockchain-side-setup">Blockchain side setup</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ft3/ft3-project-setup.html#config-dapp-description">Config dapp description</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ft3/ft3-project-setup.html#database-setup">Database setup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ft3/ft3-project-setup.html#running-the-chain">Running the chain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ft3/ft3-project-setup.html#verify-the-chain-is-working">Verify the chain is working</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ft3/ft3-project-setup.html#client-side-setup">Client side setup</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ft3/ft3-project-setup.html#set-config-variables">Set config variables</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ft3/ft3-javascript-library.html">Javascript library</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ft3/ft3-javascript-library.html#initialize-blockchain-object">Initialize Blockchain object</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ft3/ft3-javascript-library.html#the-user-class">The User class</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ft3/ft3-javascript-library.html#authdescriptor-rules">AuthDescriptor Rules</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ft3/ft3-javascript-library.html#the-account-class">The Account class</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ft3/ft3-javascript-library.html#account-registration">Account registration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ft3/ft3-javascript-library.html#searching-accounts">Searching accounts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ft3/ft3-javascript-library.html#adding-authentication-descriptor">Adding authentication descriptor</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ft3/ft3-javascript-library.html#assets-management">Assets Management</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ft3/ft3-javascript-library.html#assetbalance">AssetBalance</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ft3/ft3-javascript-library.html#asset">Asset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ft3/ft3-javascript-library.html#transferring-assets">Transferring assets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ft3/ft3-javascript-library.html#transfer-history">Transfer History</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ft3/ft3-javascript-library.html#calling-operations">Calling operations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ft3/ft3-javascript-library.html#single-operation">Single operation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ft3/ft3-javascript-library.html#multiple-operations">Multiple operations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ft3/ft3-javascript-library.html#the-nop-operation">The nop operation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ft3/ft3-javascript-library.html#gtvserializable-interface">GtvSerializable interface</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ft3/ft3-rell-ft3-integration.html">Rell Integration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ft3/ft3-rell-ft3-integration.html#defining-dapp-account-entity">Defining dapp_account entity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ft3/ft3-rell-ft3-integration.html#modules">Modules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ft3/ft3-rell-ft3-integration.html#account-module">Account Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ft3/ft3-rell-ft3-integration.html#core-module">Core Module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ft3/ft3-single-sign-on.html">Single Sign-on (SSO)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ft3/ft3-single-sign-on.html#sso-flow-with-bootstrap-client">SSO flow with bootstrap client</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ft3/ft3-single-sign-on.html#set-config-variables">Set config variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ft3/ft3-single-sign-on.html#setup-the-dapp-on-vault">Setup the dapp on Vault</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ft3/ft3-single-sign-on.html#sso-class">SSO Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ft3/ft3-single-sign-on.html#initiate-login">Initiate login</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ft3/ft3-single-sign-on.html#finalize-login">Finalize login</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ft3/ft3-single-sign-on.html#auto-login-remember-me">Auto-login (Remember Me)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ft3/ft3-single-sign-on.html#logout">Logout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ft3/ft3-single-sign-on.html#low-level-details">Low level details</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ft3/ft3-single-sign-on.html#dapp-account-when-using-sso">Dapp Account when using SSO</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ft3/ft3-updating-a-chain.html">How to update a dapp chain</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ft3/ft3-updating-a-chain.html#project-structure-before-update">Project structure before update</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ft3/ft3-updating-a-chain.html#update-by-specifying-different-entry-points">Update by specifying different entry points</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ft3/ft3-updating-a-chain.html#restructure-the-code">Restructure the code</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ft3/ft3-updating-a-chain.html#adding-new-codes">Adding new codes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ft3/ft3-updating-a-chain.html#set-the-migration-to-new-module">Set the migration to new module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ft3/ft3-updating-a-chain.html#test-the-chain">Test the chain</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ft3/ft3-updating-a-chain.html#update-by-referencing-old-configuration">Update by referencing old configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ft3/ft3-updating-a-chain.html#what-does-run-node-sh-do">What does run-node.sh do?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ft3/ft3-updating-a-chain.html#backup-old-configuration">Backup old configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ft3/ft3-updating-a-chain.html#id1">Adding new codes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ft3/ft3-updating-a-chain.html#id2">Set the migration to new module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="#">FT3-Documentation</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ft3/ft3-features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ft3/ft3-project-setup.html">Project Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ft3/ft3-javascript-library.html">Javascript library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ft3/ft3-rell-ft3-integration.html">Rell Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ft3/ft3-single-sign-on.html">Single Sign-on (SSO)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ft3/ft3-updating-a-chain.html">How to update a dapp chain</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="#">Documentation overview</a><ul>
+      <li>Next: <a href="ft3/ft3-features.html" title="next chapter">Features</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2021, Ernst Kapp.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.4.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/index.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

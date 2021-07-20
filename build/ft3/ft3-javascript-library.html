@@ -1,0 +1,524 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Javascript library &#8212; FT3-Documentation what documentation</title>
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Rell Integration" href="ft3-rell-ft3-integration.html" />
+    <link rel="prev" title="Project Setup" href="ft3-project-setup.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="javascript-library">
+<h1>Javascript library<a class="headerlink" href="#javascript-library" title="Permalink to this headline">¶</a></h1>
+<p>In this section, we explain how to use the client side library (<code class="docutils literal notranslate"><span class="pre">ft3-lib</span></code> node package).
+This library includes built in functions to manage accounts in the ft3-module.</p>
+<div class="section" id="initialize-blockchain-object">
+<h2>Initialize Blockchain object<a class="headerlink" href="#initialize-blockchain-object" title="Permalink to this headline">¶</a></h2>
+<p>The first thing that has to be done before a blockchain can be accessed is to initialize the Blockchain object used to interact with the blockchain:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="c1">// /client/index.js</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">Postchain</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;ft3-lib&#39;</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">blockchainRID</span><span class="p">,</span> <span class="nx">blockchainUrl</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;./configs/constants&#39;</span><span class="p">;</span> <span class="c1">// these configs are set in previous section</span>
+
+<span class="kd">const</span> <span class="nx">chainId</span> <span class="o">=</span> <span class="nx">Buffer</span><span class="p">.</span><span class="nx">from</span><span class="p">(</span><span class="nx">blockchainRID</span><span class="p">,</span> <span class="s1">&#39;hex&#39;</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">blockchain</span> <span class="o">=</span> <span class="k">await</span> <span class="k">new</span> <span class="nx">Postchain</span><span class="p">(</span><span class="nx">blockchainUrl</span><span class="p">).</span><span class="nx">blockchain</span><span class="p">(</span><span class="nx">chainId</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Details of the initialized chain can be accessed from <code class="docutils literal notranslate"><span class="pre">info</span></code> property which has name, website and description properties:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;-------------- Blockchain Info --------------&quot;</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;name        : ${blockchain.info.name}        &quot;</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;website     : ${blockchain.info.website}     &quot;</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;description : ${blockchain.info.description} &quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>These fields have the values which we previously set in the <code class="docutils literal notranslate"><span class="pre">config.template.xml</span></code> file.</p>
+</div>
+<hr class="docutils" />
+<div class="section" id="the-user-class">
+<h2>The User class<a class="headerlink" href="#the-user-class" title="Permalink to this headline">¶</a></h2>
+<p>The User class represents a logged in user, and is used to keep the user’s key pair and authentication descriptor.</p>
+<p>Any method that require transaction signing will need an object of this class.</p>
+<p>We will also import SingleSignatureAuthDescriptor wich will take the account pubKey and the flags from the single_sig entity as parameters.</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="p">{</span> <span class="nx">SingleSignatureAuthDescriptor</span><span class="p">,</span> <span class="nx">User</span><span class="p">,</span> <span class="nx">FlagsType</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;ft3-lib&#39;</span><span class="p">;</span>
+
+<span class="p">...</span>
+
+<span class="kd">const</span> <span class="nx">authDescriptor</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">SingleSignatureAuthDescriptor</span><span class="p">(</span>
+  <span class="nx">keyPair</span><span class="p">.</span><span class="nx">pubKey</span><span class="p">,</span>
+  <span class="p">[</span><span class="nx">FlagsType</span><span class="p">.</span><span class="nx">Account</span><span class="p">,</span> <span class="nx">FlagsType</span><span class="p">.</span><span class="nx">Transfer</span><span class="p">]</span>
+<span class="p">);</span>
+<span class="kd">const</span> <span class="nx">user</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">User</span><span class="p">(</span><span class="nx">keyPair</span><span class="p">,</span> <span class="nx">authDescriptor</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Many functions provided by Blockchain class require User object, for example:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span> <span class="nx">authDescriptor</span> <span class="o">=</span> <span class="p">...;</span>
+<span class="kd">const</span> <span class="nx">user</span> <span class="o">=</span> <span class="p">....;</span>
+
+<span class="c1">// gets all accounts where this authDescriptor has control over</span>
+<span class="kd">const</span> <span class="nx">accounts</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">blockchain</span><span class="p">.</span><span class="nx">getAccountsByAuthDescriptorId</span><span class="p">(</span>
+  <span class="nx">authDescriptor</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span>
+  <span class="nx">user</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+<p>In most of the cases the same User instance is used throughout an app (the “current user”). In order to avoid passing both Blockchain and User objects around in an app, the <em>BlockchainSession</em> class is introduced.</p>
+<p>It has many of the same functions as Blockchain class, but with a difference that functions provided by the BlockchainSession don’t require User parameter:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span> <span class="nx">authDescriptor</span> <span class="o">=</span> <span class="p">...;</span>
+<span class="kd">const</span> <span class="nx">user</span> <span class="o">=</span> <span class="p">....;</span>
+
+<span class="kd">const</span> <span class="nx">session</span> <span class="o">=</span> <span class="nx">blockchain</span><span class="p">.</span><span class="nx">newSession</span><span class="p">(</span><span class="nx">user</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">accounts</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">session</span><span class="p">.</span><span class="nx">getAccountsByAuthDescriptorId</span><span class="p">(</span><span class="nx">authDescriptor</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="section" id="authdescriptor-rules">
+<h3>AuthDescriptor Rules<a class="headerlink" href="#authdescriptor-rules" title="Permalink to this headline">¶</a></h3>
+<p>Both AuthDescriptor constructors accept an optional 3rd parameter of type <code class="docutils literal notranslate"><span class="pre">Rules</span></code>, which define constraint for the descriptor’s “valid period”.</p>
+<p>Supported constrains are:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">Rules.operationCount</span></code></dt><dd><p>Number of operations this authDescriptor can perform:</p>
+</dd>
+</dl>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="p">{</span> <span class="nx">SingleSignatureAuthDescriptor</span><span class="p">,</span> <span class="nx">FlagsType</span><span class="p">,</span> <span class="nx">Rules</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;ft3-lib&#39;</span><span class="p">;</span>
+
+<span class="kd">const</span> <span class="nx">authDescriptor</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">SingleSignatureAuthDescriptor</span><span class="p">(</span>
+  <span class="nx">keyPair</span><span class="p">.</span><span class="nx">pubKey</span><span class="p">,</span>
+  <span class="p">[</span><span class="nx">FlagsType</span><span class="p">.</span><span class="nx">Account</span><span class="p">,</span> <span class="nx">FlagsType</span><span class="p">.</span><span class="nx">Transfer</span><span class="p">],</span>
+  <span class="nx">Rules</span><span class="p">.</span><span class="nx">operationCount</span><span class="p">.</span><span class="nx">lessOrEqual</span><span class="p">(</span><span class="mf">2</span><span class="p">)</span> <span class="c1">// This authDescriptor is only valid for 2 operations</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">Rules.blockTime</span></code></dt><dd><p>Time period during which the authDescriptor has effect:</p>
+</dd>
+</dl>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="p">{</span> <span class="nx">SingleSignatureAuthDescriptor</span><span class="p">,</span> <span class="nx">FlagsType</span><span class="p">,</span> <span class="nx">Rules</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;ft3-lib&#39;</span><span class="p">;</span>
+
+<span class="kd">const</span> <span class="nx">authDescriptor</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">SingleSignatureAuthDescriptor</span><span class="p">(</span>
+  <span class="nx">keyPair</span><span class="p">.</span><span class="nx">pubKey</span><span class="p">,</span>
+  <span class="p">[</span><span class="nx">FlagsType</span><span class="p">.</span><span class="nx">Account</span><span class="p">,</span> <span class="nx">FlagsType</span><span class="p">.</span><span class="nx">Transfer</span><span class="p">],</span>
+  <span class="nx">Rules</span><span class="p">.</span><span class="nx">blockTime</span><span class="p">.</span><span class="nx">greaterThan</span><span class="p">(</span><span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">()</span> <span class="o">+</span> <span class="mf">12</span> <span class="o">*</span> <span class="mf">60</span> <span class="o">*</span> <span class="mf">60</span> <span class="o">*</span> <span class="mf">1000</span><span class="p">)</span> <span class="c1">// This authDescriptor will start working 12 hours from now</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">Rules.blockHeight</span></code></dt><dd><p>Block heigh limitation of the authDescriptor:</p>
+</dd>
+</dl>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="p">{</span> <span class="nx">SingleSignatureAuthDescriptor</span><span class="p">,</span> <span class="nx">FlagsType</span><span class="p">,</span> <span class="nx">Rules</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;ft3-lib&#39;</span><span class="p">;</span>
+
+<span class="kd">const</span> <span class="nx">authDescriptor</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">SingleSignatureAuthDescriptor</span><span class="p">(</span>
+  <span class="nx">keyPair</span><span class="p">.</span><span class="nx">pubKey</span><span class="p">,</span>
+  <span class="p">[</span><span class="nx">FlagsType</span><span class="p">.</span><span class="nx">Account</span><span class="p">,</span> <span class="nx">FlagsType</span><span class="p">.</span><span class="nx">Transfer</span><span class="p">],</span>
+  <span class="nx">Rules</span><span class="p">.</span><span class="nx">blockHeight</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="mf">0</span><span class="p">)</span> <span class="c1">// This authDescriptor is only valid when the chain was just created (0 block is in the chain)</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+<p>Supported operators are:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">lessThan</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">lessThanOrEqual</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">equal</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">greaterThan</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">greaterOrEqual</span></code></p></li>
+</ul>
+<p>Is it also possible to build composite rules:</p>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="p">{</span> <span class="nx">SingleSignatureAuthDescriptor</span><span class="p">,</span> <span class="nx">FlagsType</span><span class="p">,</span> <span class="nx">Rules</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;ft3-lib&#39;</span><span class="p">;</span>
+
+<span class="c1">// This authDescriptor will start working 12 hours from now and is only valid for 24 hours</span>
+<span class="kd">const</span> <span class="nx">startDate</span> <span class="o">=</span> <span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">()</span> <span class="o">+</span> <span class="mf">12</span> <span class="o">*</span> <span class="mf">60</span> <span class="o">*</span> <span class="mf">60</span> <span class="o">*</span> <span class="mf">1000</span><span class="p">;</span>
+<span class="kd">const</span> <span class="nx">endDate</span> <span class="o">=</span> <span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">()</span> <span class="o">+</span> <span class="mf">36</span> <span class="o">*</span> <span class="mf">60</span> <span class="o">*</span> <span class="mf">60</span> <span class="o">*</span> <span class="mf">1000</span><span class="p">;</span>
+<span class="kd">const</span> <span class="nx">authDescriptor</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">SingleSignatureAuthDescriptor</span><span class="p">(</span>
+  <span class="nx">keyPair</span><span class="p">.</span><span class="nx">pubKey</span><span class="p">,</span>
+  <span class="p">[</span><span class="nx">FlagsType</span><span class="p">.</span><span class="nx">Account</span><span class="p">,</span> <span class="nx">FlagsType</span><span class="p">.</span><span class="nx">Transfer</span><span class="p">],</span>
+  <span class="nx">Rules</span><span class="p">.</span><span class="nx">blockTime</span><span class="p">.</span><span class="nx">greaterThan</span><span class="p">(</span><span class="nx">startDate</span><span class="p">).</span><span class="nx">and</span><span class="p">.</span><span class="nx">blockTime</span><span class="p">.</span><span class="nx">lessThanOrEqual</span><span class="p">(</span><span class="nx">endDate</span><span class="p">)</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<hr class="docutils" />
+<div class="section" id="the-account-class">
+<h2>The Account class<a class="headerlink" href="#the-account-class" title="Permalink to this headline">¶</a></h2>
+<p>An Account object contains:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">assets</span></code>: an array of <code class="docutils literal notranslate"><span class="pre">AssetBalance</span></code> instances.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">authDescriptor</span></code>: an array of <code class="docutils literal notranslate"><span class="pre">AuthDescriptor</span></code> instances.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">session</span></code>: the <code class="docutils literal notranslate"><span class="pre">BlockchainSession</span></code> that returned it.</p></li>
+</ul>
+<div class="section" id="account-registration">
+<h3>Account registration<a class="headerlink" href="#account-registration" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span> <span class="nx">ownerKeyPair</span> <span class="o">=</span> <span class="p">...;</span>
+<span class="kd">const</span> <span class="nx">authDescriptor</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">SingleSignatureAuthDescriptor</span><span class="p">(</span>
+  <span class="nx">ownerKeyPair</span><span class="p">.</span><span class="nx">pubKey</span><span class="p">,</span>
+  <span class="p">[</span><span class="nx">FlagsType</span><span class="p">.</span><span class="nx">Account</span><span class="p">,</span> <span class="nx">FlagsType</span><span class="p">.</span><span class="nx">Transfer</span><span class="p">]</span>
+<span class="p">);</span>
+
+<span class="kd">const</span> <span class="nx">account</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">blockchain</span><span class="p">.</span><span class="nx">registerAccount</span><span class="p">(</span><span class="nx">authDescriptor</span><span class="p">,</span> <span class="nx">user</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>More commonly the current user will be creating an account for themselves. In those cases we can simply pass <code class="docutils literal notranslate"><span class="pre">user.authDescriptor</span></code> into the operation:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span> <span class="nx">account</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">blockchain</span><span class="p">.</span><span class="nx">registerAccount</span><span class="p">(</span><span class="nx">user</span><span class="p">.</span><span class="nx">authDescriptor</span><span class="p">,</span> <span class="nx">user</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="searching-accounts">
+<h3>Searching accounts<a class="headerlink" href="#searching-accounts" title="Permalink to this headline">¶</a></h3>
+<p>Accounts can be searched by account ID:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span> <span class="nx">account</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">session</span><span class="p">.</span><span class="nx">getAccountById</span><span class="p">(</span><span class="nx">accountId</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>by authentication descriptor ID:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span> <span class="nx">accounts</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">session</span><span class="p">.</span><span class="nx">getAccountsByAuthDescriptorId</span><span class="p">(</span><span class="nx">authDescriptorId</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>or by participant ID:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span> <span class="nx">accounts</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">session</span><span class="p">.</span><span class="nx">getAccountsByParticipantId</span><span class="p">(</span><span class="nx">user</span><span class="p">.</span><span class="nx">keyPair</span><span class="p">.</span><span class="nx">pubKey</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>For SingleSig and MultiSig account descriptors, participant ID is pubKey. Therefore this function allows to search for accounts by pubKey.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>The difference between <code class="docutils literal notranslate"><span class="pre">getAccountsByParticipantId</span></code> and <code class="docutils literal notranslate"><span class="pre">getAccountsByAuthDescriptorId</span></code> is:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">getAccountsByParticipantId</span></code> returns all accounts where user is participant, no matter which access rights user has or which type of authentication is used to control the accounts</p></li>
+<li><p>while <code class="docutils literal notranslate"><span class="pre">getAccountsByAuthDescriptorId</span></code> returns only accounts where user has access with specific type of authentication and authorization.</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="adding-authentication-descriptor">
+<h3>Adding authentication descriptor<a class="headerlink" href="#adding-authentication-descriptor" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span> <span class="nx">newAuthDescriptor</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">SingleSignatureAuthDescriptor</span><span class="p">(</span>
+  <span class="nx">pubKey</span><span class="p">,</span>
+  <span class="p">[</span><span class="nx">FlagsType</span><span class="p">.</span><span class="nx">Account</span><span class="p">,</span> <span class="nx">FlagsType</span><span class="p">.</span><span class="nx">Transfer</span><span class="p">]</span>
+<span class="p">);</span>
+<span class="kd">const</span> <span class="nx">account</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">session</span><span class="p">.</span><span class="nx">getAccountById</span><span class="p">(</span><span class="nx">accountId</span><span class="p">);</span>
+<span class="k">await</span> <span class="nx">account</span><span class="p">.</span><span class="nx">addAuthDescriptor</span><span class="p">(</span><span class="nx">newAuthDescriptor</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="assets-management">
+<h2>Assets Management<a class="headerlink" href="#assets-management" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="assetbalance">
+<h3>AssetBalance<a class="headerlink" href="#assetbalance" title="Permalink to this headline">¶</a></h3>
+<p>Each account when queried comes with an <code class="docutils literal notranslate"><span class="pre">account.assets</span></code> array of AssetBalance.</p>
+<p>An AssetBalance contain information about an Asset the account own (<code class="docutils literal notranslate"><span class="pre">assetBalance.asset</span></code>), and the amount owned (<code class="docutils literal notranslate"><span class="pre">assetBalance.amount</span></code>).</p>
+<p>You can also get asset balance of an account by calling <code class="docutils literal notranslate"><span class="pre">AssetBalance.getByAccountId</span></code>:</p>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span> <span class="nx">balances</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">AssetBalance</span><span class="p">.</span><span class="nx">getByAccountId</span><span class="p">(</span><span class="nx">accountId</span><span class="p">,</span> <span class="nx">blockchain</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>or if you are interested in only one specific asset:</p>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span> <span class="nx">balance</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">AssetBalance</span><span class="p">.</span><span class="nx">getByAccountAndAssetId</span><span class="p">(</span><span class="nx">accountId</span><span class="p">,</span> <span class="nx">assetId</span><span class="p">,</span> <span class="nx">blockchain</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="asset">
+<h3>Asset<a class="headerlink" href="#asset" title="Permalink to this headline">¶</a></h3>
+<p>Each Asset has a <code class="docutils literal notranslate"><span class="pre">name</span></code> and a <code class="docutils literal notranslate"><span class="pre">chainId</span></code>, which is the id of the chain where the asset come from.</p>
+<p>The unique identifier of asset (<code class="docutils literal notranslate"><span class="pre">asset.id</span></code>) is generated from the hash of <code class="docutils literal notranslate"><span class="pre">name</span></code> and <code class="docutils literal notranslate"><span class="pre">chainId</span></code>, so asset name is unique within a chain but different chains can have asset with the same name.</p>
+<p>An Asset must be registered on a chain to be recognized:</p>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="k">await</span> <span class="nx">Asset</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="nx">assetName</span><span class="p">,</span> <span class="nx">blockchainId</span><span class="p">,</span> <span class="nx">blockchain</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Registered assets can be queried by name:</p>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span> <span class="nx">assets</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">blockchain</span><span class="p">.</span><span class="nx">getAssetsByName</span><span class="p">(</span><span class="nx">assetName</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>or by id:</p>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span> <span class="nx">asset</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">blockchain</span><span class="p">.</span><span class="nx">getAssetById</span><span class="p">(</span><span class="nx">assetId</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>You can also get all assets of a chain by calling getAllAssets:</p>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span> <span class="nx">assets</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">blockchain</span><span class="p">.</span><span class="nx">getAllAssets</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="transferring-assets">
+<h3>Transferring assets<a class="headerlink" href="#transferring-assets" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span> <span class="nx">account</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">session</span><span class="p">.</span><span class="nx">getAccountById</span><span class="p">(</span><span class="nx">accountId</span><span class="p">);</span>
+<span class="k">await</span> <span class="nx">account</span><span class="p">.</span><span class="nx">transfer</span><span class="p">(</span><span class="nx">recipientId</span><span class="p">,</span> <span class="nx">assetId</span><span class="p">,</span> <span class="nx">amount</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Here we see that the Account class retains the same characteristic as BlockchainSession: we don’t need to provide an User object to sign the transaction.</p>
+</div>
+</div>
+<div class="section" id="transfer-history">
+<h3>Transfer History<a class="headerlink" href="#transfer-history" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span> <span class="nx">history</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">account</span><span class="p">.</span><span class="nx">getPaymentHistory</span><span class="p">();</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">getPaymentHistory</span></code> return an array of <code class="docutils literal notranslate"><span class="pre">PaymentHistoryEntryShort</span></code>:</p>
+<div class="highlight-typescript notranslate"><div class="highlight"><pre><span></span><span class="kd">class</span> <span class="nx">PaymentHistoryEntryShort</span> <span class="p">{</span>
+  <span class="k">readonly</span> <span class="nx">isInput</span>: <span class="kt">boolean</span><span class="p">;</span> <span class="c1">// true if account is the sender, false in case of receiver</span>
+  <span class="k">readonly</span> <span class="nx">delta</span>: <span class="kt">number</span><span class="p">;</span> <span class="c1">// amount transfered: negative for sender (e.g. -10), positive for receiver (e.g. 12)</span>
+  <span class="k">readonly</span> <span class="nx">asset</span>: <span class="kt">string</span><span class="p">;</span>
+  <span class="k">readonly</span> <span class="nx">assetId</span>: <span class="kt">string</span><span class="p">;</span>
+  <span class="k">readonly</span> <span class="nx">entryIndex</span>: <span class="kt">number</span><span class="p">;</span>
+  <span class="k">readonly</span> <span class="nx">timestamp</span>: <span class="kt">Date</span><span class="p">;</span>
+  <span class="k">readonly</span> <span class="nx">transactionId</span>: <span class="kt">string</span><span class="p">;</span>
+  <span class="k">readonly</span> <span class="nx">transactionData</span>: <span class="kt">Buffer</span><span class="p">;</span>
+  <span class="k">readonly</span> <span class="nx">blockHeight</span>: <span class="kt">number</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<hr class="docutils" />
+<div class="section" id="calling-operations">
+<h2>Calling operations<a class="headerlink" href="#calling-operations" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="single-operation">
+<h3>Single operation<a class="headerlink" href="#single-operation" title="Permalink to this headline">¶</a></h3>
+<p>FT3 operations and other blockchain operations can also be directly called using the Blockchain and BlockchainSession classes.</p>
+<p>For instance, the same “adding auth descriptor” operation above can be done using:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="p">{</span> <span class="nx">op</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;ft3-lib&#39;</span><span class="p">;</span>
+
+<span class="kd">const</span> <span class="nx">account</span> <span class="o">=</span> <span class="p">...</span>
+<span class="kd">const</span> <span class="nx">user</span> <span class="o">=</span> <span class="p">...</span>
+<span class="kd">const</span> <span class="nx">newAuthDescriptor</span> <span class="o">=</span> <span class="p">...</span>
+
+<span class="k">await</span> <span class="nx">blockchain</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span>
+  <span class="nx">op</span><span class="p">(</span>
+    <span class="s1">&#39;ft3.add_auth_descriptor&#39;</span><span class="p">,</span>
+    <span class="nx">accountId</span><span class="p">,</span>
+    <span class="nx">user</span><span class="p">.</span><span class="nx">authDescriptor</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span>
+    <span class="nx">newAuthDescriptor</span>
+  <span class="p">),</span>
+  <span class="nx">user</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="multiple-operations">
+<h3>Multiple operations<a class="headerlink" href="#multiple-operations" title="Permalink to this headline">¶</a></h3>
+<p>The transaction builder can be used if multiple operations have to be called in a single transaction:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="k">await</span> <span class="nx">blockchain</span><span class="p">.</span><span class="nx">transactionBuilder</span><span class="p">()</span>
+  <span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">op</span><span class="p">(</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="nx">param1</span><span class="p">,</span> <span class="nx">param2</span><span class="p">))</span>
+  <span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">op</span><span class="p">(</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="nx">param</span><span class="p">))</span>
+  <span class="p">.</span><span class="nx">buildAndSign</span><span class="p">(</span><span class="nx">user</span><span class="p">)</span>
+  <span class="p">.</span><span class="nx">post</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>Previous statement creates a single transaction with both <code class="docutils literal notranslate"><span class="pre">foo</span></code> and <code class="docutils literal notranslate"><span class="pre">bar</span></code> operations, adds signers from user’s auth descriptor and signs it with user’s private key.</p>
+<p>If more control is needed over signers and signing then build and sign functions could be used instead:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="k">await</span> <span class="nx">blockchain</span><span class="p">.</span><span class="nx">transactionBuilder</span><span class="p">()</span>
+  <span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">op</span><span class="p">(</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="nx">param1</span><span class="p">,</span> <span class="nx">param2</span><span class="p">))</span>
+  <span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">op</span><span class="p">(</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="nx">param</span><span class="p">))</span>
+  <span class="p">.</span><span class="nx">build</span><span class="p">(</span><span class="nx">signersPublicKeys</span><span class="p">)</span>
+  <span class="p">.</span><span class="nx">sign</span><span class="p">(</span><span class="nx">keyPair1</span><span class="p">)</span>
+  <span class="p">.</span><span class="nx">sign</span><span class="p">(</span><span class="nx">keyPair2</span><span class="p">)</span>
+  <span class="p">.</span><span class="nx">post</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>Instead of immediately sending a transaction after building it, it is also possible to get a raw transaction:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span> <span class="nx">rawTransaction</span> <span class="o">=</span> <span class="nx">blockchain</span><span class="p">.</span><span class="nx">transactionBuilder</span><span class="p">()</span>
+  <span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">op</span><span class="p">(</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="nx">param1</span><span class="p">,</span> <span class="nx">param2</span><span class="p">))</span>
+  <span class="p">.</span><span class="nx">buildAndSign</span><span class="p">(</span><span class="nx">user</span><span class="p">)</span>
+  <span class="p">.</span><span class="nx">raw</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>which can be sent to a blockchain node later:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="k">await</span> <span class="nx">blockchain</span><span class="p">.</span><span class="nx">postRaw</span><span class="p">(</span><span class="nx">rawTransaction</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="the-nop-operation">
+<h3>The nop operation<a class="headerlink" href="#the-nop-operation" title="Permalink to this headline">¶</a></h3>
+<p>To prevent replay attack postchain rejects a transaction if it has the same content as one of the transactions already stored on the blockchain. For example if we directly call ft3.transfer operation two times, the second call will fail.</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span> <span class="nx">inputs</span> <span class="o">=</span> <span class="p">...</span>
+<span class="kd">const</span> <span class="nx">outputs</span> <span class="o">=</span> <span class="p">...</span>
+<span class="kd">const</span> <span class="nx">user</span> <span class="o">=</span> <span class="p">...</span>
+
+<span class="c1">// first will succeed</span>
+<span class="k">await</span> <span class="nx">blockchain</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">op</span><span class="p">(</span><span class="s1">&#39;ft3.transfer&#39;</span><span class="p">,</span> <span class="nx">inputs</span><span class="p">,</span> <span class="nx">outputs</span><span class="p">),</span> <span class="nx">user</span><span class="p">);</span>
+
+<span class="c1">// second will fail</span>
+<span class="k">await</span> <span class="nx">blockchain</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">op</span><span class="p">(</span><span class="s1">&#39;ft3.transfer&#39;</span><span class="p">,</span> <span class="nx">inputs</span><span class="p">,</span> <span class="nx">outputs</span><span class="p">),</span> <span class="nx">user</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>To avoid transaction failing, nop operation can be added to a second transaction in order to make it differ from the first transaction.</p>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="p">{</span> <span class="nx">op</span><span class="p">,</span> <span class="nx">nop</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;ft3-lib&#39;</span><span class="p">;</span>
+
+<span class="k">await</span> <span class="nx">blockchain</span><span class="p">.</span><span class="nx">transactionBuilder</span><span class="p">()</span>
+  <span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">op</span><span class="p">(</span><span class="s1">&#39;ft3.transfer&#39;</span><span class="p">,</span> <span class="nx">inputs</span><span class="p">,</span> <span class="nx">outputs</span><span class="p">))</span>
+  <span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">nop</span><span class="p">())</span>
+  <span class="p">.</span><span class="nx">buildAndSign</span><span class="p">(</span><span class="nx">user</span><span class="p">)</span>
+  <span class="p">.</span><span class="nx">post</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>nop() function returns nop operation with a random number as argument.</p>
+</div>
+<div class="section" id="gtvserializable-interface">
+<h3>GtvSerializable interface<a class="headerlink" href="#gtvserializable-interface" title="Permalink to this headline">¶</a></h3>
+<p>In typescript, <code class="docutils literal notranslate"><span class="pre">op</span></code> function is defined as:</p>
+<div class="highlight-typescript notranslate"><div class="highlight"><pre><span></span><span class="kd">function</span> <span class="nx">op</span><span class="p">(</span><span class="nx">name</span>: <span class="kt">string</span><span class="p">,</span> <span class="p">...</span><span class="nx">args</span>: <span class="kt">GtvSerializable</span><span class="p">[])</span><span class="o">:</span> <span class="nx">Operation</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nx">Operation</span><span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="p">...</span><span class="nx">args</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>It expects arguments to implement GtvSerializable interface, i.e. to have implemented <code class="docutils literal notranslate"><span class="pre">toGTV()</span></code> function.</p>
+<p>Array, Buffer, String and Number are already extended with toGTV function.</p>
+<p>If user defined object wants to be passed to an operation, it has to implement GtvSerializable interface, e.g.</p>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="kd">class</span> <span class="nx">Player</span> <span class="p">{</span>
+  <span class="nx">constructor</span><span class="p">(</span><span class="nx">firstName</span><span class="p">,</span> <span class="nx">lastName</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">firstName</span> <span class="o">=</span> <span class="nx">firstName</span><span class="p">;</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">lastName</span> <span class="o">=</span> <span class="nx">lastName</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="nx">toGTV</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">[</span><span class="k">this</span><span class="p">.</span><span class="nx">firstName</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">lastName</span><span class="p">],</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">await</span> <span class="nx">blockchain</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span>
+  <span class="nx">op</span><span class="p">(</span><span class="s1">&#39;some_op&#39;</span><span class="p">,</span> <span class="k">new</span> <span class="nx">Player</span><span class="p">(</span><span class="s1">&#39;John&#39;</span><span class="p">,</span> <span class="s1">&#39;Doe&#39;</span><span class="p">)),</span>
+  <span class="nx">user</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>To be able to handle the <code class="docutils literal notranslate"><span class="pre">Player</span></code> object, on blockchain side, <code class="docutils literal notranslate"><span class="pre">some_op</span></code> would have to be defined as either:</p>
+<div class="highlight-rell notranslate"><div class="highlight"><pre><span></span>operation some_op(player: list&lt;gtv&gt;) {
+  ...
+}
+</pre></div>
+</div>
+<p>or</p>
+<div class="highlight-rell notranslate"><div class="highlight"><pre><span></span>record player {
+  first_name: text;
+  last_name: text;
+}
+
+operation some_op(player) {
+  ...
+}
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">FT3-Documentation</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="ft3-features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ft3-project-setup.html">Project Setup</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Javascript library</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#initialize-blockchain-object">Initialize Blockchain object</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-user-class">The User class</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#authdescriptor-rules">AuthDescriptor Rules</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#the-account-class">The Account class</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#account-registration">Account registration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#searching-accounts">Searching accounts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#adding-authentication-descriptor">Adding authentication descriptor</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#assets-management">Assets Management</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#assetbalance">AssetBalance</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#asset">Asset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#transferring-assets">Transferring assets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#transfer-history">Transfer History</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#calling-operations">Calling operations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#single-operation">Single operation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#multiple-operations">Multiple operations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#the-nop-operation">The nop operation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gtvserializable-interface">GtvSerializable interface</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ft3-rell-ft3-integration.html">Rell Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ft3-single-sign-on.html">Single Sign-on (SSO)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ft3-updating-a-chain.html">How to update a dapp chain</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="ft3-project-setup.html" title="previous chapter">Project Setup</a></li>
+      <li>Next: <a href="ft3-rell-ft3-integration.html" title="next chapter">Rell Integration</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2021, Ernst Kapp.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.4.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/ft3/ft3-javascript-library.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,327 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Single Sign-on (SSO) &#8212; FT3-Documentation what documentation</title>
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="How to update a dapp chain" href="ft3-updating-a-chain.html" />
+    <link rel="prev" title="Rell Integration" href="ft3-rell-ft3-integration.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="single-sign-on-sso">
+<h1>Single Sign-on (SSO)<a class="headerlink" href="#single-sign-on-sso" title="Permalink to this headline">¶</a></h1>
+<p>SSO allows user to login to different dapps with a single account. It is similar to how you can click a “Login with Facebook/Google” buttons to login to different services using a single Facebook/Google account.</p>
+<p>In order for SSO to work, dapp must be integrated with a SSO service. <span class="xref std std-doc">Chromia Vault</span> is the main SSO service in Chromia ecosystem, though a custom SSO service can be easily implemented thanks to FT3 module’s flexible authentication model.</p>
+<p>As discussed in previous sections, access to a FT3 account is controlled with authentication descriptors (See <a class="reference internal" href="ft3-features.html#ft3-account-management"><span class="std std-ref">Account Management</span></a>). So if we use a Vault account’s public key to create an <code class="docutils literal notranslate"><span class="pre">authDescriptor</span></code> with <code class="docutils literal notranslate"><span class="pre">'A'</span></code> flag, and add it to a dapp account, Vault will have control over the dapp account.</p>
+<p>The actual process is done in 3 steps:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>User login to their Vault account, and approve of the SSO request.</p></li>
+<li><p>Vault’s keyPair is used to create a new account for dapp (so dapp account and Vault account will have the same accountId). A second <code class="docutils literal notranslate"><span class="pre">authDescriptor</span></code> with only <code class="docutils literal notranslate"><span class="pre">'T'</span></code> flag is created on-the-fly and added to this new dapp account.</p></li>
+<li><p>The user can now use the second keyPair to perform transactions for the account.</p></li>
+</ul>
+</div></blockquote>
+<p>This keyPair is meant to be disposable and can safely be discarded or replaced at user’s discretion.</p>
+<p>This might sound rather complicated to implement, but fortunately <code class="docutils literal notranslate"><span class="pre">ft3-lib</span></code> library already handle all of the heavy works, and dapps only have to config the SSO Class a bit for it to work.</p>
+<p>The bootstrap project already contain a <code class="docutils literal notranslate"><span class="pre">client</span></code> directory that implement the SSO flow. Let’s go through how to set up the flow using bootstrap client, then we will discuss how to config SSO flow for your own client.</p>
+<div class="section" id="sso-flow-with-bootstrap-client">
+<h2>SSO flow with bootstrap client<a class="headerlink" href="#sso-flow-with-bootstrap-client" title="Permalink to this headline">¶</a></h2>
+<p>Backup your <code class="docutils literal notranslate"><span class="pre">client</span></code> directory somewhere safe, and replace it with the <code class="docutils literal notranslate"><span class="pre">client</span></code> directory from bootstrap project.</p>
+<div class="section" id="set-config-variables">
+<h3>Set config variables<a class="headerlink" href="#set-config-variables" title="Permalink to this headline">¶</a></h3>
+<p>Bootstrap client use <code class="docutils literal notranslate"><span class="pre">dotenv</span></code> npm package to set config variables. In <code class="docutils literal notranslate"><span class="pre">client</span></code> directory you can see a <code class="docutils literal notranslate"><span class="pre">.env.sample</span></code> file. Duplicate the file and rename it to <code class="docutils literal notranslate"><span class="pre">.env</span></code>. Update the file with your chain’s settings, besure to uncomment those lines (remove leading <code class="docutils literal notranslate"><span class="pre">#</span></code>):</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>REACT_APP_VAULT_URL=https://vault-testnet.chromia.com
+REACT_APP_BLOCKCHAIN_RID=DAPP_BLOCKCHAIN_RID
+REACT_APP_NODE_ADDRESS=http://localhost:7743
+</pre></div>
+</div>
+</div>
+<div class="section" id="setup-the-dapp-on-vault">
+<h3>Setup the dapp on Vault<a class="headerlink" href="#setup-the-dapp-on-vault" title="Permalink to this headline">¶</a></h3>
+<p>Because our dapp is not public on Chain Explorer yet, we need to config it for testing as a Custom DApp.</p>
+<p>Go to the <a class="reference external" href="https://vault-testnet.chromia.com">Vault page</a> and login to your account (Follow the instruction at <span class="xref std std-doc">Chromia Vault</span> section if you are unsure).</p>
+<p>Scroll down to the “All DApps” section, and click “Add Custom DApp”. Fill in information of your chain (similar to how you did with Chain Explorer during project setup).</p>
+<p><img alt="Vautl SSO" src="../_images/vault-sso.png" /></p>
+<p>You will see your dapp tile added to the Vault’s dapp list.</p>
+<p>Now the SSO flow is ready to use. Go back to your dapp (click the tile in Vault’s dapp list), and you will see a login screen. Clicking the login button will redirect you to Vault to login to your Vault account.</p>
+<p>If everything was setup correctly, Vault will ask you to authorize dapp. Clicking “Authorize” button will redirect you back to your client, with the newly created account’s information displayed.</p>
+<p>If the Authorize page is not displayed, it indicates a problem with your configs. Verify that the BRID and host is correct and try again.</p>
+<hr class="docutils" />
+<p>We got the bootstrap client to work with SSO. You can use the bootstrap client as a base to build your own client. But if you want to implement SSO in your own client, the next part discuss how to do exactly that.</p>
+</div>
+</div>
+<div class="section" id="sso-class">
+<h2>SSO Class<a class="headerlink" href="#sso-class" title="Permalink to this headline">¶</a></h2>
+<p>FT3 provides SSO functionality through SSO class. The first step in integrating SSO into a dapp is to initialize SSO class on the app launch:</p>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="p">{</span> <span class="nx">Blockchain</span><span class="p">,</span> <span class="nx">SSO</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;ft3-lib&#39;</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">blockchainRID</span><span class="p">,</span> <span class="nx">blockchainUrl</span><span class="p">,</span> <span class="nx">vaultUrl</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;./configs/constants&#39;</span><span class="p">;</span> <span class="c1">// these configs are set in project-setup section</span>
+
+<span class="kd">const</span> <span class="nx">chainId</span> <span class="o">=</span> <span class="nx">Buffer</span><span class="p">.</span><span class="nx">from</span><span class="p">(</span><span class="nx">blockchainRID</span><span class="p">,</span> <span class="s1">&#39;hex&#39;</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">blockchain</span> <span class="o">=</span> <span class="k">await</span> <span class="k">new</span> <span class="nx">Postchain</span><span class="p">(</span><span class="nx">blockchainUrl</span><span class="p">).</span><span class="nx">blockchain</span><span class="p">(</span><span class="nx">chainId</span><span class="p">);</span>
+
+<span class="nx">SSO</span><span class="p">.</span><span class="nx">vaultUrl</span> <span class="o">=</span> <span class="nx">vaultUrl</span><span class="p">;</span>
+<span class="kd">const</span> <span class="nx">sso</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">SSO</span><span class="p">(</span><span class="nx">blockchain</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="initiate-login">
+<h2>Initiate login<a class="headerlink" href="#initiate-login" title="Permalink to this headline">¶</a></h2>
+<p>When user click the “Login with Vault” button, dapp should call <code class="docutils literal notranslate"><span class="pre">initiateLogin</span></code>:</p>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span> <span class="p">{</span> <span class="nx">SSO</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;ft3-lib&#39;</span><span class="p">;</span>
+
+<span class="kd">const</span> <span class="nx">successUrl</span> <span class="o">=</span> <span class="sb">`</span><span class="si">${</span><span class="nb">window</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">origin</span><span class="si">}</span><span class="sb">/success`</span><span class="p">;</span>
+<span class="kd">const</span> <span class="nx">cancelUrl</span> <span class="o">=</span> <span class="sb">`</span><span class="si">${</span><span class="nb">window</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">origin</span><span class="si">}</span><span class="sb">/cancel`</span><span class="p">;</span>
+
+<span class="nx">sso</span><span class="p">.</span><span class="nx">initiateLogin</span><span class="p">(</span><span class="nx">successUrl</span><span class="p">,</span> <span class="nx">cancelUrl</span><span class="p">);</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">initiateLogin</span></code> navigates a user to the Vault, where they have to select one of their accounts in order to create a new dapp account or login to existing dapp account. After the user logs in to their vault account and authorizes login or account creation, they will be redirected back to the dapp to finalize login.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">successUrl</span></code>: where to redirect to after a successful login</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cancelUrl</span></code>: where to redirect to when user cancels the login</p></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="finalize-login">
+<h2>Finalize login<a class="headerlink" href="#finalize-login" title="Permalink to this headline">¶</a></h2>
+<p>If there were no errors, Vault will redirect the user to the location of <code class="docutils literal notranslate"><span class="pre">successUrl</span></code>.</p>
+<p>Vault will add query parameters containing raw transaction - which needs to be signed by the dapp and posted to the blockchain.</p>
+<p>Singing and posting is handled by the <code class="docutils literal notranslate"><span class="pre">finalizeLogin</span></code> method:</p>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="p">{</span> <span class="nx">parse</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;query-string&#39;</span><span class="p">;</span>
+
+<span class="kd">const</span> <span class="p">{</span> <span class="nx">rawTx</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">parse</span><span class="p">(</span><span class="nx">search</span><span class="p">);</span> <span class="c1">// extract rawTx query parameter</span>
+
+<span class="k">try</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="p">[</span><span class="nx">account</span><span class="p">,</span> <span class="nx">user</span><span class="p">]</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">sso</span><span class="p">.</span><span class="nx">finalizeLogin</span><span class="p">(</span><span class="nx">rawTx</span><span class="p">);</span>
+<span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// handle error</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">finalizeLogin</span></code> returns a tuple which contains ft3 <code class="docutils literal notranslate"><span class="pre">account</span></code> (<code class="docutils literal notranslate"><span class="pre">Account</span></code> instance) and ft3 <code class="docutils literal notranslate"><span class="pre">user</span></code> (<code class="docutils literal notranslate"><span class="pre">User</span></code> instance).</p>
+<p>If an account doesn’t already exist, call to <code class="docutils literal notranslate"><span class="pre">finalizeLogin</span></code> will create it, and if it was already created, only auth descriptor would be added to the account. Returned user object contains a key pair used to sign the transactions and an auth descriptor to authorize operations.</p>
+<p>This same flow is used both for registering new dapp account and login to existing account.</p>
+</div>
+<div class="section" id="auto-login-remember-me">
+<h2>Auto-login (Remember Me)<a class="headerlink" href="#auto-login-remember-me" title="Permalink to this headline">¶</a></h2>
+<p>By default, SSO uses an instance of <code class="docutils literal notranslate"><span class="pre">SSOStoreDefault</span></code> to keep track of account (account id) and user (key pair) details in memory. As soon as SSO instance is destroyed (e.g. page refresh), account and user details are lost.</p>
+<p>But it is also possible to persist them to local storage. Details will be stored to local storage if SSO is initialized with <code class="docutils literal notranslate"><span class="pre">SSOStoreLocalStorage</span></code>:</p>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="p">{</span> <span class="nx">SSO</span><span class="p">,</span> <span class="nx">SSOStoreLocalStorage</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;ft3-lib&#39;</span><span class="p">;</span>
+
+<span class="kd">const</span> <span class="nx">sso</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">SSO</span><span class="p">(</span><span class="nx">blockchain</span><span class="p">,</span> <span class="k">new</span> <span class="nx">SSOStoreLocalStorage</span><span class="p">());</span>
+</pre></div>
+</div>
+<p>On app launch, the auto-login feature can be used to auto login user if they have already logged in previously:</p>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span> <span class="p">[</span><span class="nx">account</span><span class="p">,</span> <span class="nx">user</span><span class="p">]</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">sso</span><span class="p">.</span><span class="nx">autoLogin</span><span class="p">();</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="nx">account</span> <span class="o">===</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// redirect to login page</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Like <code class="docutils literal notranslate"><span class="pre">finalizeLogin</span></code> method, <code class="docutils literal notranslate"><span class="pre">autoLogin</span></code> returns <code class="docutils literal notranslate"><span class="pre">account</span></code> and <code class="docutils literal notranslate"><span class="pre">user</span></code> objects.</p>
+<p>Auto login will only work if SSO can find account id and keypair in LocalStorage, and if the <code class="docutils literal notranslate"><span class="pre">authDescriptor</span></code> which corresponds to stored key pair didn’t expire.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">autoLogin</span></code> returns <code class="docutils literal notranslate"><span class="pre">null</span></code> for <code class="docutils literal notranslate"><span class="pre">account</span></code> and <code class="docutils literal notranslate"><span class="pre">user</span></code>, then user should be redirected to a normal login page, where <code class="docutils literal notranslate"><span class="pre">initiateLogin</span></code> should be called to login using the Vault.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Storing the key pair inside LocalStorage is potentially a security risk, therefore <code class="docutils literal notranslate"><span class="pre">SSOStoreLocalStorage</span></code> should only be used if dapp doesn’t require a high level of security.</p>
+<p>In high security cases, dapp should implement its own method of preserving <code class="docutils literal notranslate"><span class="pre">user.keyPair</span></code> for future use.</p>
+</div>
+</div>
+<div class="section" id="logout">
+<h2>Logout<a class="headerlink" href="#logout" title="Permalink to this headline">¶</a></h2>
+<p>Call <code class="docutils literal notranslate"><span class="pre">logout</span></code> method to delete local cache and auth descriptor:</p>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="k">await</span> <span class="nx">sso</span><span class="p">.</span><span class="nx">logout</span><span class="p">();</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Make sure you are using the same SSO instance which was used when calling <code class="docutils literal notranslate"><span class="pre">finalizeLogin</span></code>, because account and user details are stored in that object instance.</p>
+</div>
+</div>
+<div class="section" id="low-level-details">
+<h2>Low level details<a class="headerlink" href="#low-level-details" title="Permalink to this headline">¶</a></h2>
+<p>As briefed in the beginning, SSO flow creates an ft3 account on a dapp’s chain which has the same accountId as the user’s Vault account.</p>
+<p>In the flow, Vault is responsible for building a transaction which creates the account and adds an authDescriptor to it. Once Vault passes the transaction to the dapp (via request parameters), dapp signs it and posts it to the blockchain by calling <code class="docutils literal notranslate"><span class="pre">finalizeLogin</span></code>.</p>
+<p>This transaction will perform 2 operations, which add two auth descriptors to the account. One is added with a call to <code class="docutils literal notranslate"><span class="pre">register_account</span></code> operation and second is added with <code class="docutils literal notranslate"><span class="pre">add_auth_descriptor</span></code> operation.</p>
+<ul class="simple">
+<li><p>First <code class="docutils literal notranslate"><span class="pre">authDescriptor</span></code> is created using Vault public key and has <code class="docutils literal notranslate"><span class="pre">'A'</span></code> and <code class="docutils literal notranslate"><span class="pre">'T'</span></code> flags</p></li>
+<li><p>The second is created using a disposable public key (generated by <code class="docutils literal notranslate"><span class="pre">initializeLogin</span></code> method) with only “T” flag.</p></li>
+</ul>
+<p>If an account with the same accountId as Vault’s account already exists on the blockchain, SSO will only add the second <code class="docutils literal notranslate"><span class="pre">authDescriptor</span></code> with disposable public key.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>Because the new account need to add the disposable auth descriptor immediately at creation time, it is required that you set a value equal or greater than 1 for <code class="docutils literal notranslate"><span class="pre">rate_limit_points_at_account_creation</span></code> in <code class="docutils literal notranslate"><span class="pre">config.template.xml</span></code> as we have noted during <a class="reference internal" href="ft3-project-setup.html"><span class="doc">Project Setup</span></a>.</p>
+<p>If you also need to record additional user information (as discussed below), the minimum value will need to be increased further.</p>
+</div>
+</div>
+<div class="section" id="dapp-account-when-using-sso">
+<h2>Dapp Account when using SSO<a class="headerlink" href="#dapp-account-when-using-sso" title="Permalink to this headline">¶</a></h2>
+<p>SSO can only create a ft3 account, but in most cases that is not enough to store dapp account details.</p>
+<p>Using the same example <code class="docutils literal notranslate"><span class="pre">dapp_account</span></code> entity in <a class="reference internal" href="ft3-rell-ft3-integration.html"><span class="doc">Rell Integration</span></a>:</p>
+<div class="highlight-rell notranslate"><div class="highlight"><pre><span></span>entity dapp_account {
+  key account: ft3.account;
+  key username: text;
+}
+</pre></div>
+</div>
+<p>We can make some changes to support the SSO flow:</p>
+<div class="highlight-rell notranslate"><div class="highlight"><pre><span></span>operation create_dapp_account(
+    username: text,
+    account_id: byte_array,
+    auth_descriptor_id: byte_array
+) {
+  val account = auth_and_log(
+    account_id,
+    auth_descriptor_id,
+    list&lt;text&gt;()
+  );
+
+  create dapp_account (account, username);
+}
+
+query get_dapp_account(account_id: byte_array) {
+  return dapp_account @? { .account.id == account_id } (
+    account_id = .account.id,
+    username = .username
+  );
+}
+</pre></div>
+</div>
+<p>And then on the client side the login flow would look like this:</p>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span> <span class="p">[</span><span class="nx">account</span><span class="p">,</span> <span class="nx">user</span><span class="p">]</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">blokchain</span><span class="p">.</span><span class="nx">finalizeLogin</span><span class="p">(</span><span class="nx">tx</span><span class="p">);</span>
+
+<span class="kd">const</span> <span class="nx">dapp_account</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">blockchain</span><span class="p">.</span><span class="nx">query</span><span class="p">(</span>
+  <span class="s1">&#39;get_dapp_account&#39;</span><span class="p">,</span>
+  <span class="p">{</span> <span class="nx">account_id</span><span class="o">:</span> <span class="nx">account</span><span class="p">.</span><span class="nx">id</span> <span class="p">}</span>
+<span class="p">);</span>
+
+<span class="kd">const</span> <span class="nx">username</span> <span class="o">=</span> <span class="s1">&#39;john_doe&#39;</span><span class="p">;</span> <span class="c1">// Fake username</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">dapp_account</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">await</span> <span class="nx">blockchain</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span>
+    <span class="nx">op</span><span class="p">(</span><span class="s1">&#39;create_dapp_account&#39;</span><span class="p">,</span> <span class="nx">username</span><span class="p">,</span> <span class="nx">account</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span> <span class="nx">user</span><span class="p">.</span><span class="nx">authDescriptor</span><span class="p">.</span><span class="nx">id</span><span class="p">),</span>
+    <span class="nx">user</span>
+  <span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>On the login success page, we check if the dapp account exists by calling <code class="docutils literal notranslate"><span class="pre">get_user</span></code> query. If <code class="docutils literal notranslate"><span class="pre">null</span></code> is returned, that means the account doesn’t exist yet, so we have to create it.</p>
+<p>In this oversimplified example, it is done by calling <code class="docutils literal notranslate"><span class="pre">create_user</span></code> operation with hard-coded info. In a real dapp, we would need a form where user can enter those account details.</p>
+<p>Next time the user logs in, <code class="docutils literal notranslate"><span class="pre">get_user</span></code> query will return the dapp account, so the dapp account creations step will be skipped.</p>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">FT3-Documentation</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="ft3-features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ft3-project-setup.html">Project Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ft3-javascript-library.html">Javascript library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ft3-rell-ft3-integration.html">Rell Integration</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Single Sign-on (SSO)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#sso-flow-with-bootstrap-client">SSO flow with bootstrap client</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#set-config-variables">Set config variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#setup-the-dapp-on-vault">Setup the dapp on Vault</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#sso-class">SSO Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#initiate-login">Initiate login</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#finalize-login">Finalize login</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#auto-login-remember-me">Auto-login (Remember Me)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#logout">Logout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#low-level-details">Low level details</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#dapp-account-when-using-sso">Dapp Account when using SSO</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ft3-updating-a-chain.html">How to update a dapp chain</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="ft3-rell-ft3-integration.html" title="previous chapter">Rell Integration</a></li>
+      <li>Next: <a href="ft3-updating-a-chain.html" title="next chapter">How to update a dapp chain</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2021, Ernst Kapp.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.4.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/ft3/ft3-single-sign-on.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
