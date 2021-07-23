@@ -1,36 +1,203 @@
 
-<!DOCTYPE html>
 
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Project Setup &#8212; FT3-Documentation what documentation</title>
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
-    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
-    <script src="../_static/doctools.js"></script>
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Project Setup &mdash; Rell v0.10.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../_static/chromia-favicon.png"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script async="async" src="../_static/chromia-analytics.js"></script>
+        <script async="async" src="../_static/custom.js"></script>
+        <script src="../_static/dark-mode-on-load.js"></script>
+        <script src="../_static/side-nav-icons.js"></script>
+        <script src="../_static/get-news.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Javascript library" href="ft3-javascript-library.html" />
-    <link rel="prev" title="Features" href="ft3-features.html" />
-   
-  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
-  
-  
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+    <link rel="prev" title="Features" href="ft3-features.html" /> 
+</head>
 
-  </head><body>
-  
+<body class="wy-body-for-nav">
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
+  
+<div class="dev-header">
+    <nav class="chromia-nav">
+
+        <a class="navbar-brand" href="https://chromia.com/developers/">
+            <img class="nav-icon" src="../_static/dev-logo.svg" alt="Chromia Developers Logo">
+        </a>
+
+        <div class="chromia-nav-links">
+                <div>
+                    <a class="chromia-nav-link" href="https://chromia.com">Home</a>
+                </div>
+                <div>
+                    <a class="chromia-nav-link" href="https://rell.chromia.com">Documentation</a>
+                </div>
+                <div>
+                    <a class="chromia-nav-link" href="https://rellide-staging.chromia.dev/">Web IDE</a>
+                </div>
+                <div>
+                    <a class="chromia-nav-link" href="https://t.me/ChromiaDev">Community</a>
+                </div>
+        </div>
+        <i id="hamburger-menu" class="fa fa-bars"></i>
+    </nav>
+</div>
+
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+        <a class="main-logo" href="../index.html">
+        <img src="../_static/chromia-logo.svg" class="logo" alt="Logo"/>
+    </a>
+    <div class="news-flash">
+        <img class="news-icon" src="../_static/news-icon.svg">
+    </div>
+
+    <hr class="wy-side-hr">
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="ft3-features.html">Features</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Project Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ft3-javascript-library.html">Javascript library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ft3-rell-ft3-integration.html">Rell Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ft3-single-sign-on.html">Single Sign-on (SSO)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ft3-updating-a-chain.html">How to update a dapp chain</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+    <i data-toggle="wy-nav-top" id="menu-arrow-right" class="fa fa-angle-right"></i>
+    <div class="dark-mode-container">
+        <i class="moon-icon fa fa-moon-o"></i>
+        <i data-toggle="dark-mode-toggle" class="dark-mode-toggler fa fa-toggle-off"></i>
+    </div>
+    <div class="wy-nav-top-title">
+        <a href="../index.html">Rell</a>
+    </div>
+    <i id="search-button" class="fa fa-search"></i>
+    <i data-toggle="wy-nav-top" id="menu-arrow-down" class="fa fa-angle-down"></i>
+      </nav>
+
+
+      <div class="wy-nav-content">
+    <div class="wy-content-search">
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <i class="fa fa-search input-icon"></i>
+    <input class="search-text" type="text" name="q" placeholder="Search documentation" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        <div class="dark-mode-container">
+            <i class="moon-icon fa fa-moon-o"></i>
+            <i data-toggle="dark-mode-toggle" class="dark-mode-toggler fa fa-toggle-off"></i>
+        </div>
+    </div>
+
+    
+        
+        <div class="rst-content">
+        
           
 
-          <div class="body" role="main">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Project Setup</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/ft3/ft3-project-setup.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
             
   <div class="section" id="project-setup">
 <h1>Project Setup<a class="headerlink" href="#project-setup" title="Permalink to this headline">¶</a></h1>
@@ -115,16 +282,16 @@ docker-compose up
 <div class="section" id="running-the-chain">
 <h3>Running the chain<a class="headerlink" href="#running-the-chain" title="Permalink to this headline">¶</a></h3>
 <p>(From root directory) start your chain:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">postchain</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">run</span><span class="o">-</span><span class="n">node</span><span class="o">.</span><span class="n">sh</span> <span class="n">dev</span>
+<div class="highlight-rell notranslate"><div class="highlight"><pre><span></span><span class="p">.</span><span class="o">/</span><span class="nv">postchain</span><span class="o">/</span><span class="nv">bin</span><span class="o">/</span><span class="nv">run</span><span class="o">-</span><span class="nv">node</span><span class="p">.</span><span class="nv">sh</span> <span class="nv">dev</span>
 </pre></div>
 </div>
 <p>Replace <code class="docutils literal notranslate"><span class="pre">dev</span></code> with the name of your postchain config directory if you have renamed it.</p>
 <p>If everything is properly configured, you will soon see a success message printed to the console:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Postchain</span> <span class="n">node</span> <span class="n">launching</span> <span class="ow">is</span> <span class="n">done</span>
+<div class="highlight-rell notranslate"><div class="highlight"><pre><span></span><span class="nv">Postchain</span> <span class="nv">node</span> <span class="nv">launching</span> <span class="nv">is</span> <span class="nv">done</span>
 </pre></div>
 </div>
 <p>Above that line you will find the generated blockchain ID of the blockchain that looks like this:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">INFO</span>  <span class="mi">2120</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">01</span> <span class="mi">23</span><span class="p">:</span><span class="mi">59</span><span class="p">:</span><span class="mf">59.999</span> <span class="p">[</span><span class="n">main</span><span class="p">]</span> <span class="n">BaseConfigurationDataStore</span> <span class="o">-</span> <span class="n">Creating</span> <span class="n">initial</span> <span class="n">configuration</span> <span class="k">for</span> <span class="n">chain</span> <span class="mi">1</span> <span class="k">with</span> <span class="n">BC</span> <span class="n">RID</span><span class="p">:</span> <span class="n">B61EFF348B43D7C93F67F6D2ABE17391D709A77F9A040D6309984665082DFE8A</span>
+<div class="highlight-rell notranslate"><div class="highlight"><pre><span></span><span class="nv">INFO</span>  <span class="mi">2120</span><span class="o">-</span><span class="mo">01</span><span class="o">-</span><span class="mo">01</span> <span class="mi">23</span><span class="p">:</span><span class="mi">59</span><span class="p">:</span><span class="mf">59.999</span> <span class="p">[</span><span class="nv">main</span><span class="p">]</span> <span class="nv">BaseConfigurationDataStore</span> <span class="o">-</span> <span class="nv">Creating</span> <span class="nv">initial</span> <span class="nv">configuration</span> <span class="k">for</span> <span class="nv">chain</span> <span class="mi">1</span> <span class="nv">with</span> <span class="nv">BC</span> <span class="nv">RID</span><span class="p">:</span> <span class="nv">B61EFF348B43D7C93F67F6D2ABE17391D709A77F9A040D6309984665082DFE8A</span>
 </pre></div>
 </div>
 <p>Note down the blockchain ID, we will use it to connect to the chain.</p>
@@ -132,7 +299,7 @@ docker-compose up
 <p class="admonition-title">Important</p>
 <p>Postchain will generate a blockchain ID for dapp based on the dapp’s codebase.</p>
 <p>Whenever you change blockchain code of dapp, you will need to wipe database by adding the <code class="docutils literal notranslate"><span class="pre">-W</span></code> option, in order to get new blockchainID:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">postchain</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">run</span><span class="o">-</span><span class="n">node</span><span class="o">.</span><span class="n">sh</span> <span class="n">dapp_name</span> <span class="o">-</span><span class="n">W</span>
+<div class="highlight-rell notranslate"><div class="highlight"><pre><span></span><span class="nv">postchain</span><span class="o">/</span><span class="nv">bin</span><span class="o">/</span><span class="nv">run</span><span class="o">-</span><span class="nv">node</span><span class="p">.</span><span class="nv">sh</span> <span class="nv">dapp_name</span> <span class="o">-</span><span class="nv">W</span>
 </pre></div>
 </div>
 <p>If you missed the log in console, you can always check previous log in <code class="docutils literal notranslate"><span class="pre">logs/logfile.log</span></code> file.</p>
@@ -156,8 +323,8 @@ docker-compose up
 <p>The <code class="docutils literal notranslate"><span class="pre">client</span></code> directory you use in the bootstrap project is an example client, which will work with our current chain. In this section, we will discuss how to create our own client that connects to the chain.</p>
 <p>Create a <code class="docutils literal notranslate"><span class="pre">client</span></code> directory for your project, run <code class="docutils literal notranslate"><span class="pre">npm</span> <span class="pre">init</span></code> (or bootstrap a project using a generator, e.g. <code class="docutils literal notranslate"><span class="pre">create-react-app</span></code>).</p>
 <p>Add dependencies to the nodejs project:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">npm</span> <span class="n">i</span> <span class="o">--</span><span class="n">save</span> <span class="n">ft3</span><span class="o">-</span><span class="n">lib</span>
-<span class="n">npm</span> <span class="n">i</span> <span class="o">--</span><span class="n">save</span> <span class="n">postchain</span><span class="o">-</span><span class="n">client</span>
+<div class="highlight-rell notranslate"><div class="highlight"><pre><span></span><span class="nv">npm</span> <span class="nv">i</span> <span class="o">--</span><span class="nv">save</span> <span class="nv">ft3</span><span class="o">-</span><span class="nv">lib</span>
+<span class="nv">npm</span> <span class="nv">i</span> <span class="o">--</span><span class="nv">save</span> <span class="nv">postchain</span><span class="o">-</span><span class="nv">client</span>
 </pre></div>
 </div>
 <p>Add other libraries to your liking.</p>
@@ -175,89 +342,46 @@ docker-compose up
 </div>
 
 
+           </div>
+           
           </div>
-          
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="ft3-javascript-library.html" class="btn btn-neutral float-right" title="Javascript library" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="ft3-features.html" class="btn btn-neutral float-left" title="Features" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+
+    </p>
+  </div> 
+
+</footer>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-<h1 class="logo"><a href="../index.html">FT3-Documentation</a></h1>
 
+    </section>
 
+  </div>
+  
 
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
 
-
-
-
-
-<h3>Navigation</h3>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="ft3-features.html">Features</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Project Setup</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#blockchain-side-setup">Blockchain side setup</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#config-dapp-description">Config dapp description</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#database-setup">Database setup</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#running-the-chain">Running the chain</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#verify-the-chain-is-working">Verify the chain is working</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#client-side-setup">Client side setup</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#set-config-variables">Set config variables</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="ft3-javascript-library.html">Javascript library</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ft3-rell-ft3-integration.html">Rell Integration</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ft3-single-sign-on.html">Single Sign-on (SSO)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ft3-updating-a-chain.html">How to update a dapp chain</a></li>
-</ul>
-
-<div class="relations">
-<h3>Related Topics</h3>
-<ul>
-  <li><a href="../index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="ft3-features.html" title="previous chapter">Features</a></li>
-      <li>Next: <a href="ft3-javascript-library.html" title="next chapter">Javascript library</a></li>
-  </ul></li>
-</ul>
-</div>
-<div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
-      <input type="submit" value="Go" />
-    </form>
-    </div>
-</div>
-<script>$('#searchbox').show(0);</script>
-
-
-
-
-
-
-
-
-        </div>
-      </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="footer">
-      &copy;2021, Ernst Kapp.
-      
-      |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.4.3</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
-      
-      |
-      <a href="../_sources/ft3/ft3-project-setup.rst.txt"
-          rel="nofollow">Page source</a>
-    </div>
-
+  
+  
     
+  
+    <script src="../_static/side-nav-icons.js"></script>
+    <script src="../_static/dark-mode-on-load.js"></script>
+    <script src="../_static/get-news.js"></script>
 
-    
-  </body>
+
+</body>
 </html>

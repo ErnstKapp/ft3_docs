@@ -1,36 +1,203 @@
 
-<!DOCTYPE html>
 
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Single Sign-on (SSO) &#8212; FT3-Documentation what documentation</title>
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
-    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
-    <script src="../_static/doctools.js"></script>
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Single Sign-on (SSO) &mdash; Rell v0.10.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../_static/chromia-favicon.png"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script async="async" src="../_static/chromia-analytics.js"></script>
+        <script async="async" src="../_static/custom.js"></script>
+        <script src="../_static/dark-mode-on-load.js"></script>
+        <script src="../_static/side-nav-icons.js"></script>
+        <script src="../_static/get-news.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="How to update a dapp chain" href="ft3-updating-a-chain.html" />
-    <link rel="prev" title="Rell Integration" href="ft3-rell-ft3-integration.html" />
-   
-  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
-  
-  
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+    <link rel="prev" title="Rell Integration" href="ft3-rell-ft3-integration.html" /> 
+</head>
 
-  </head><body>
-  
+<body class="wy-body-for-nav">
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
+  
+<div class="dev-header">
+    <nav class="chromia-nav">
+
+        <a class="navbar-brand" href="https://chromia.com/developers/">
+            <img class="nav-icon" src="../_static/dev-logo.svg" alt="Chromia Developers Logo">
+        </a>
+
+        <div class="chromia-nav-links">
+                <div>
+                    <a class="chromia-nav-link" href="https://chromia.com">Home</a>
+                </div>
+                <div>
+                    <a class="chromia-nav-link" href="https://rell.chromia.com">Documentation</a>
+                </div>
+                <div>
+                    <a class="chromia-nav-link" href="https://rellide-staging.chromia.dev/">Web IDE</a>
+                </div>
+                <div>
+                    <a class="chromia-nav-link" href="https://t.me/ChromiaDev">Community</a>
+                </div>
+        </div>
+        <i id="hamburger-menu" class="fa fa-bars"></i>
+    </nav>
+</div>
+
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+        <a class="main-logo" href="../index.html">
+        <img src="../_static/chromia-logo.svg" class="logo" alt="Logo"/>
+    </a>
+    <div class="news-flash">
+        <img class="news-icon" src="../_static/news-icon.svg">
+    </div>
+
+    <hr class="wy-side-hr">
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="ft3-features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ft3-project-setup.html">Project Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ft3-javascript-library.html">Javascript library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ft3-rell-ft3-integration.html">Rell Integration</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Single Sign-on (SSO)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ft3-updating-a-chain.html">How to update a dapp chain</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+    <i data-toggle="wy-nav-top" id="menu-arrow-right" class="fa fa-angle-right"></i>
+    <div class="dark-mode-container">
+        <i class="moon-icon fa fa-moon-o"></i>
+        <i data-toggle="dark-mode-toggle" class="dark-mode-toggler fa fa-toggle-off"></i>
+    </div>
+    <div class="wy-nav-top-title">
+        <a href="../index.html">Rell</a>
+    </div>
+    <i id="search-button" class="fa fa-search"></i>
+    <i data-toggle="wy-nav-top" id="menu-arrow-down" class="fa fa-angle-down"></i>
+      </nav>
+
+
+      <div class="wy-nav-content">
+    <div class="wy-content-search">
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <i class="fa fa-search input-icon"></i>
+    <input class="search-text" type="text" name="q" placeholder="Search documentation" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        <div class="dark-mode-container">
+            <i class="moon-icon fa fa-moon-o"></i>
+            <i data-toggle="dark-mode-toggle" class="dark-mode-toggler fa fa-toggle-off"></i>
+        </div>
+    </div>
+
+    
+        
+        <div class="rst-content">
+        
           
 
-          <div class="body" role="main">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Single Sign-on (SSO)</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/ft3/ft3-single-sign-on.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
             
   <div class="section" id="single-sign-on-sso">
 <h1>Single Sign-on (SSO)<a class="headerlink" href="#single-sign-on-sso" title="Permalink to this headline">¶</a></h1>
@@ -184,33 +351,33 @@ REACT_APP_NODE_ADDRESS=http://localhost:7743
 <h2>Dapp Account when using SSO<a class="headerlink" href="#dapp-account-when-using-sso" title="Permalink to this headline">¶</a></h2>
 <p>SSO can only create a ft3 account, but in most cases that is not enough to store dapp account details.</p>
 <p>Using the same example <code class="docutils literal notranslate"><span class="pre">dapp_account</span></code> entity in <a class="reference internal" href="ft3-rell-ft3-integration.html"><span class="doc">Rell Integration</span></a>:</p>
-<div class="highlight-rell notranslate"><div class="highlight"><pre><span></span>entity dapp_account {
-  key account: ft3.account;
-  key username: text;
-}
+<div class="highlight-rell notranslate"><div class="highlight"><pre><span></span><span class="k">entity</span> <span class="nv">dapp_account</span> <span class="p">{</span>
+  <span class="k">key</span> <span class="nv">account</span><span class="p">:</span> <span class="nv">ft3</span><span class="p">.</span><span class="nv">account</span><span class="p">;</span>
+  <span class="k">key</span> <span class="nv">username</span><span class="p">:</span> <span class="nv">text</span><span class="p">;</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <p>We can make some changes to support the SSO flow:</p>
-<div class="highlight-rell notranslate"><div class="highlight"><pre><span></span>operation create_dapp_account(
-    username: text,
-    account_id: byte_array,
-    auth_descriptor_id: byte_array
-) {
-  val account = auth_and_log(
-    account_id,
-    auth_descriptor_id,
-    list&lt;text&gt;()
-  );
+<div class="highlight-rell notranslate"><div class="highlight"><pre><span></span><span class="k">operation</span> <span class="nv">create_dapp_account</span><span class="p">(</span>
+    <span class="nv">username</span><span class="p">:</span> <span class="nv">text</span><span class="p">,</span>
+    <span class="nv">account_id</span><span class="p">:</span> <span class="nv">byte_array</span><span class="p">,</span>
+    <span class="nv">auth_descriptor_id</span><span class="p">:</span> <span class="nv">byte_array</span>
+<span class="p">)</span> <span class="p">{</span>
+  <span class="k">val</span> <span class="nv">account</span> <span class="o">=</span> <span class="nv">auth_and_log</span><span class="p">(</span>
+    <span class="nv">account_id</span><span class="p">,</span>
+    <span class="nv">auth_descriptor_id</span><span class="p">,</span>
+    <span class="k">list</span><span class="o">&lt;</span><span class="nv">text</span><span class="o">&gt;</span><span class="p">()</span>
+  <span class="p">);</span>
 
-  create dapp_account (account, username);
-}
+  <span class="k">create</span> <span class="nv">dapp_account</span> <span class="p">(</span><span class="nv">account</span><span class="p">,</span> <span class="nv">username</span><span class="p">);</span>
+<span class="p">}</span>
 
-query get_dapp_account(account_id: byte_array) {
-  return dapp_account @? { .account.id == account_id } (
-    account_id = .account.id,
-    username = .username
-  );
-}
+<span class="k">query</span> <span class="nv">get_dapp_account</span><span class="p">(</span><span class="nv">account_id</span><span class="p">:</span> <span class="nv">byte_array</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nv">dapp_account</span> <span class="p">@</span><span class="o">?</span> <span class="p">{</span> <span class="p">.</span><span class="nv">account</span><span class="p">.</span><span class="nv">id</span> <span class="o">==</span> <span class="nv">account_id</span> <span class="p">}</span> <span class="p">(</span>
+    <span class="nv">account_id</span> <span class="o">=</span> <span class="p">.</span><span class="nv">account</span><span class="p">.</span><span class="nv">id</span><span class="p">,</span>
+    <span class="nv">username</span> <span class="o">=</span> <span class="p">.</span><span class="nv">username</span>
+  <span class="p">);</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <p>And then on the client side the login flow would look like this:</p>
@@ -238,90 +405,46 @@ query get_dapp_account(account_id: byte_array) {
 </div>
 
 
+           </div>
+           
           </div>
-          
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="ft3-updating-a-chain.html" class="btn btn-neutral float-right" title="How to update a dapp chain" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="ft3-rell-ft3-integration.html" class="btn btn-neutral float-left" title="Rell Integration" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+
+    </p>
+  </div> 
+
+</footer>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-<h1 class="logo"><a href="../index.html">FT3-Documentation</a></h1>
 
+    </section>
 
+  </div>
+  
 
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
 
-
-
-
-
-<h3>Navigation</h3>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="ft3-features.html">Features</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ft3-project-setup.html">Project Setup</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ft3-javascript-library.html">Javascript library</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ft3-rell-ft3-integration.html">Rell Integration</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Single Sign-on (SSO)</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#sso-flow-with-bootstrap-client">SSO flow with bootstrap client</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#set-config-variables">Set config variables</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#setup-the-dapp-on-vault">Setup the dapp on Vault</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#sso-class">SSO Class</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#initiate-login">Initiate login</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#finalize-login">Finalize login</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#auto-login-remember-me">Auto-login (Remember Me)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#logout">Logout</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#low-level-details">Low level details</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#dapp-account-when-using-sso">Dapp Account when using SSO</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="ft3-updating-a-chain.html">How to update a dapp chain</a></li>
-</ul>
-
-<div class="relations">
-<h3>Related Topics</h3>
-<ul>
-  <li><a href="../index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="ft3-rell-ft3-integration.html" title="previous chapter">Rell Integration</a></li>
-      <li>Next: <a href="ft3-updating-a-chain.html" title="next chapter">How to update a dapp chain</a></li>
-  </ul></li>
-</ul>
-</div>
-<div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
-      <input type="submit" value="Go" />
-    </form>
-    </div>
-</div>
-<script>$('#searchbox').show(0);</script>
-
-
-
-
-
-
-
-
-        </div>
-      </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="footer">
-      &copy;2021, Ernst Kapp.
-      
-      |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.4.3</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
-      
-      |
-      <a href="../_sources/ft3/ft3-single-sign-on.rst.txt"
-          rel="nofollow">Page source</a>
-    </div>
-
+  
+  
     
+  
+    <script src="../_static/side-nav-icons.js"></script>
+    <script src="../_static/dark-mode-on-load.js"></script>
+    <script src="../_static/get-news.js"></script>
 
-    
-  </body>
+
+</body>
 </html>

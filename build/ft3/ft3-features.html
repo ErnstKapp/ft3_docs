@@ -1,36 +1,203 @@
 
-<!DOCTYPE html>
 
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Features &#8212; FT3-Documentation what documentation</title>
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
-    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
-    <script src="../_static/doctools.js"></script>
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Features &mdash; Rell v0.10.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../_static/chromia-favicon.png"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script async="async" src="../_static/chromia-analytics.js"></script>
+        <script async="async" src="../_static/custom.js"></script>
+        <script src="../_static/dark-mode-on-load.js"></script>
+        <script src="../_static/side-nav-icons.js"></script>
+        <script src="../_static/get-news.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Project Setup" href="ft3-project-setup.html" />
-    <link rel="prev" title="Welcome to the FT3-Module’s documentation!" href="../index.html" />
-   
-  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
-  
-  
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+    <link rel="prev" title="Welcome to the FT3-Module’s documentation!" href="../index.html" /> 
+</head>
 
-  </head><body>
-  
+<body class="wy-body-for-nav">
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
+  
+<div class="dev-header">
+    <nav class="chromia-nav">
+
+        <a class="navbar-brand" href="https://chromia.com/developers/">
+            <img class="nav-icon" src="../_static/dev-logo.svg" alt="Chromia Developers Logo">
+        </a>
+
+        <div class="chromia-nav-links">
+                <div>
+                    <a class="chromia-nav-link" href="https://chromia.com">Home</a>
+                </div>
+                <div>
+                    <a class="chromia-nav-link" href="https://rell.chromia.com">Documentation</a>
+                </div>
+                <div>
+                    <a class="chromia-nav-link" href="https://rellide-staging.chromia.dev/">Web IDE</a>
+                </div>
+                <div>
+                    <a class="chromia-nav-link" href="https://t.me/ChromiaDev">Community</a>
+                </div>
+        </div>
+        <i id="hamburger-menu" class="fa fa-bars"></i>
+    </nav>
+</div>
+
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+        <a class="main-logo" href="../index.html">
+        <img src="../_static/chromia-logo.svg" class="logo" alt="Logo"/>
+    </a>
+    <div class="news-flash">
+        <img class="news-icon" src="../_static/news-icon.svg">
+    </div>
+
+    <hr class="wy-side-hr">
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ft3-project-setup.html">Project Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ft3-javascript-library.html">Javascript library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ft3-rell-ft3-integration.html">Rell Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ft3-single-sign-on.html">Single Sign-on (SSO)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ft3-updating-a-chain.html">How to update a dapp chain</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+    <i data-toggle="wy-nav-top" id="menu-arrow-right" class="fa fa-angle-right"></i>
+    <div class="dark-mode-container">
+        <i class="moon-icon fa fa-moon-o"></i>
+        <i data-toggle="dark-mode-toggle" class="dark-mode-toggler fa fa-toggle-off"></i>
+    </div>
+    <div class="wy-nav-top-title">
+        <a href="../index.html">Rell</a>
+    </div>
+    <i id="search-button" class="fa fa-search"></i>
+    <i data-toggle="wy-nav-top" id="menu-arrow-down" class="fa fa-angle-down"></i>
+      </nav>
+
+
+      <div class="wy-nav-content">
+    <div class="wy-content-search">
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <i class="fa fa-search input-icon"></i>
+    <input class="search-text" type="text" name="q" placeholder="Search documentation" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        <div class="dark-mode-container">
+            <i class="moon-icon fa fa-moon-o"></i>
+            <i data-toggle="dark-mode-toggle" class="dark-mode-toggler fa fa-toggle-off"></i>
+        </div>
+    </div>
+
+    
+        
+        <div class="rst-content">
+        
           
 
-          <div class="body" role="main">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Features</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/ft3/ft3-features.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
             
   <div class="section" id="features">
 <h1>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h1>
@@ -45,9 +212,9 @@
 <div class="section" id="account-management">
 <span id="ft3-account-management"></span><h2>Account Management<a class="headerlink" href="#account-management" title="Permalink to this headline">¶</a></h2>
 <p>The central entity of FT3 module is <code class="docutils literal notranslate"><span class="pre">account</span></code>. An account is uniquely identified by an <code class="docutils literal notranslate"><span class="pre">id</span></code>.</p>
-<div class="highlight-rell notranslate"><div class="highlight"><pre><span></span>entity account {
-  key id: byte_array;
-}
+<div class="highlight-rell notranslate"><div class="highlight"><pre><span></span><span class="k">entity</span> <span class="nv">account</span> <span class="p">{</span>
+  <span class="k">key</span> <span class="nv">id</span><span class="p">:</span> <span class="nv">byte_array</span><span class="p">;</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <p>Multiple users are supposed to be able to have access to the same account, but they all dont necessarily have the same privileges when it comes to using the account.
@@ -55,42 +222,42 @@ Therefore we introduce the authority descriptor, this entity will link users to 
 <img alt="../_images/ft3_basic_structure.png" src="../_images/ft3_basic_structure.png" />
 <p>The authority descriptor consists of a <code class="docutils literal notranslate"><span class="pre">descriptor_id</span></code> which will be the users public key and an account/descriptor_id relation <code class="docutils literal notranslate"><span class="pre">key</span> <span class="pre">account,</span> <span class="pre">descriptor_id</span></code>. This relation is what links an account to a user, when we create a user in our frontend,
 we will include a keypair and an auth descriptor, and when we link a user to a new account we create a new authority descriptor for the relation the user and account have towards eachother.</p>
-<div class="highlight-rell notranslate"><div class="highlight"><pre><span></span>entity account_auth_descriptor {
-  descriptor_id: byte_array;
-  key account, descriptor_id;
-  index descriptor_id;
-  auth_type: text;
-  args: byte_array;
-}
+<div class="highlight-rell notranslate"><div class="highlight"><pre><span></span><span class="k">entity</span> <span class="nv">account_auth_descriptor</span> <span class="p">{</span>
+  <span class="nv">descriptor_id</span><span class="p">:</span> <span class="nv">byte_array</span><span class="p">;</span>
+  <span class="k">key</span> <span class="nv">account</span><span class="p">,</span> <span class="nv">descriptor_id</span><span class="p">;</span>
+  <span class="k">index</span> <span class="nv">descriptor_id</span><span class="p">;</span>
+  <span class="nv">auth_type</span><span class="p">:</span> <span class="nv">text</span><span class="p">;</span>
+  <span class="nv">args</span><span class="p">:</span> <span class="nv">byte_array</span><span class="p">;</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <p>At the moment, the module defines two types of authentication descriptors: <strong>SingleSig</strong> and <strong>MultiSig</strong> and two authorization types: <strong>Authentication</strong> (<code class="docutils literal notranslate"><span class="pre">&quot;A&quot;</span></code>) and <strong>Transfer</strong> (<code class="docutils literal notranslate"><span class="pre">&quot;T&quot;</span></code>). The <code class="docutils literal notranslate"><span class="pre">A</span></code> flag specifies who can edit an account (and thus has all priviledges to the account), and the <code class="docutils literal notranslate"><span class="pre">T</span></code> can only transfer assets.</p>
 <p>Although there are only two predefined authorization flags, dapp developers are free to add more flag types to create a custom access control for his dapp.</p>
 <p><strong>SingleSig</strong> authentication descriptor is used to provide access to a single user. The descriptor accepts user’s public key and authorization flags which specify what access rights the user has:</p>
-<div class="highlight-rell notranslate"><div class="highlight"><pre><span></span>struct single_sig_args {
-  flags: set&lt;text&gt;;
-  pubkey;
-}
+<div class="highlight-rell notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span> <span class="nv">single_sig_args</span> <span class="p">{</span>
+  <span class="nv">flags</span><span class="p">:</span> <span class="k">set</span><span class="o">&lt;</span><span class="nv">text</span><span class="o">&gt;</span><span class="p">;</span>
+  <span class="nv">pubkey</span><span class="p">;</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <p><strong>MutliSig</strong> authentication descriptor provides M of N control of an account. It accepts a list of <code class="docutils literal notranslate"><span class="pre">N</span></code> public keys, of which a minimum number <code class="docutils literal notranslate"><span class="pre">M</span></code> of signatures are required to authorize an operation and a set of authorization flags:</p>
-<div class="highlight-rell notranslate"><div class="highlight"><pre><span></span>struct multi_sig_args {
-  flags: set&lt;text&gt;;
-  signatures_required: integer;
-  pubkeys: list&lt;pubkey&gt;;
-}
+<div class="highlight-rell notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span> <span class="nv">multi_sig_args</span> <span class="p">{</span>
+  <span class="nv">flags</span><span class="p">:</span> <span class="k">set</span><span class="o">&lt;</span><span class="nv">text</span><span class="o">&gt;</span><span class="p">;</span>
+  <span class="nv">signatures_required</span><span class="p">:</span> <span class="nv">integer</span><span class="p">;</span>
+  <span class="nv">pubkeys</span><span class="p">:</span> <span class="k">list</span><span class="o">&lt;</span><span class="nv">pubkey</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="asset-management">
 <h2>Asset Management<a class="headerlink" href="#asset-management" title="Permalink to this headline">¶</a></h2>
 <p>FT3 provides support for multiple assets. The <code class="docutils literal notranslate"><span class="pre">asset</span></code> table contains list of registered assets:</p>
-<div class="highlight-rell notranslate"><div class="highlight"><pre><span></span>entity asset {
-  id: byte_array;
-  key id;
-  key name;
-  issuing_chain_rid: byte_array;
-}
+<div class="highlight-rell notranslate"><div class="highlight"><pre><span></span><span class="k">entity</span> <span class="nv">asset</span> <span class="p">{</span>
+  <span class="nv">id</span><span class="p">:</span> <span class="nv">byte_array</span><span class="p">;</span>
+  <span class="k">key</span> <span class="nv">id</span><span class="p">;</span>
+  <span class="k">key</span> <span class="nv">name</span><span class="p">;</span>
+  <span class="nv">issuing_chain_rid</span><span class="p">:</span> <span class="nv">byte_array</span><span class="p">;</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <div class="admonition note">
@@ -98,10 +265,10 @@ we will include a keypair and an auth descriptor, and when we link a user to a n
 <p>Although we can only transfer within the same chain for now. <code class="docutils literal notranslate"><span class="pre">issuing_chain_rid</span></code> is kept in preparation for coming release when FT3 support cross-chain asset transfer.</p>
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">balance</span></code> table keeps track of an account’s assets:</p>
-<div class="highlight-rell notranslate"><div class="highlight"><pre><span></span>entity balance {
-  key account, asset;
-  mutable amount: integer = 0;
-}
+<div class="highlight-rell notranslate"><div class="highlight"><pre><span></span><span class="k">entity</span> <span class="nv">balance</span> <span class="p">{</span>
+  <span class="k">key</span> <span class="nv">account</span><span class="p">,</span> <span class="nv">asset</span><span class="p">;</span>
+  <span class="k">mutable</span> <span class="nv">amount</span><span class="p">:</span> <span class="nv">integer</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </div>
@@ -113,81 +280,46 @@ we will include a keypair and an auth descriptor, and when we link a user to a n
 </div>
 
 
+           </div>
+           
           </div>
-          
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="ft3-project-setup.html" class="btn btn-neutral float-right" title="Project Setup" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../index.html" class="btn btn-neutral float-left" title="Welcome to the FT3-Module’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+
+    </p>
+  </div> 
+
+</footer>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-<h1 class="logo"><a href="../index.html">FT3-Documentation</a></h1>
 
+    </section>
 
+  </div>
+  
 
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
 
-
-
-
-
-<h3>Navigation</h3>
-<ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Features</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#account-management">Account Management</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#asset-management">Asset Management</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#single-sign-on-sso">Single Sign-on (SSO)</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="ft3-project-setup.html">Project Setup</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ft3-javascript-library.html">Javascript library</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ft3-rell-ft3-integration.html">Rell Integration</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ft3-single-sign-on.html">Single Sign-on (SSO)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ft3-updating-a-chain.html">How to update a dapp chain</a></li>
-</ul>
-
-<div class="relations">
-<h3>Related Topics</h3>
-<ul>
-  <li><a href="../index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="../index.html" title="previous chapter">Welcome to the FT3-Module’s documentation!</a></li>
-      <li>Next: <a href="ft3-project-setup.html" title="next chapter">Project Setup</a></li>
-  </ul></li>
-</ul>
-</div>
-<div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
-      <input type="submit" value="Go" />
-    </form>
-    </div>
-</div>
-<script>$('#searchbox').show(0);</script>
-
-
-
-
-
-
-
-
-        </div>
-      </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="footer">
-      &copy;2021, Ernst Kapp.
-      
-      |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.4.3</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
-      
-      |
-      <a href="../_sources/ft3/ft3-features.rst.txt"
-          rel="nofollow">Page source</a>
-    </div>
-
+  
+  
     
+  
+    <script src="../_static/side-nav-icons.js"></script>
+    <script src="../_static/dark-mode-on-load.js"></script>
+    <script src="../_static/get-news.js"></script>
 
-    
-  </body>
+
+</body>
 </html>

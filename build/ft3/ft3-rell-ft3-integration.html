@@ -1,36 +1,203 @@
 
-<!DOCTYPE html>
 
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Rell Integration &#8212; FT3-Documentation what documentation</title>
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
-    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
-    <script src="../_static/doctools.js"></script>
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Rell Integration &mdash; Rell v0.10.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../_static/chromia-favicon.png"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script async="async" src="../_static/chromia-analytics.js"></script>
+        <script async="async" src="../_static/custom.js"></script>
+        <script src="../_static/dark-mode-on-load.js"></script>
+        <script src="../_static/side-nav-icons.js"></script>
+        <script src="../_static/get-news.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Single Sign-on (SSO)" href="ft3-single-sign-on.html" />
-    <link rel="prev" title="Javascript library" href="ft3-javascript-library.html" />
-   
-  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
-  
-  
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+    <link rel="prev" title="Javascript library" href="ft3-javascript-library.html" /> 
+</head>
 
-  </head><body>
-  
+<body class="wy-body-for-nav">
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
+  
+<div class="dev-header">
+    <nav class="chromia-nav">
+
+        <a class="navbar-brand" href="https://chromia.com/developers/">
+            <img class="nav-icon" src="../_static/dev-logo.svg" alt="Chromia Developers Logo">
+        </a>
+
+        <div class="chromia-nav-links">
+                <div>
+                    <a class="chromia-nav-link" href="https://chromia.com">Home</a>
+                </div>
+                <div>
+                    <a class="chromia-nav-link" href="https://rell.chromia.com">Documentation</a>
+                </div>
+                <div>
+                    <a class="chromia-nav-link" href="https://rellide-staging.chromia.dev/">Web IDE</a>
+                </div>
+                <div>
+                    <a class="chromia-nav-link" href="https://t.me/ChromiaDev">Community</a>
+                </div>
+        </div>
+        <i id="hamburger-menu" class="fa fa-bars"></i>
+    </nav>
+</div>
+
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+        <a class="main-logo" href="../index.html">
+        <img src="../_static/chromia-logo.svg" class="logo" alt="Logo"/>
+    </a>
+    <div class="news-flash">
+        <img class="news-icon" src="../_static/news-icon.svg">
+    </div>
+
+    <hr class="wy-side-hr">
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="ft3-features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ft3-project-setup.html">Project Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ft3-javascript-library.html">Javascript library</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Rell Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ft3-single-sign-on.html">Single Sign-on (SSO)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ft3-updating-a-chain.html">How to update a dapp chain</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+    <i data-toggle="wy-nav-top" id="menu-arrow-right" class="fa fa-angle-right"></i>
+    <div class="dark-mode-container">
+        <i class="moon-icon fa fa-moon-o"></i>
+        <i data-toggle="dark-mode-toggle" class="dark-mode-toggler fa fa-toggle-off"></i>
+    </div>
+    <div class="wy-nav-top-title">
+        <a href="../index.html">Rell</a>
+    </div>
+    <i id="search-button" class="fa fa-search"></i>
+    <i data-toggle="wy-nav-top" id="menu-arrow-down" class="fa fa-angle-down"></i>
+      </nav>
+
+
+      <div class="wy-nav-content">
+    <div class="wy-content-search">
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <i class="fa fa-search input-icon"></i>
+    <input class="search-text" type="text" name="q" placeholder="Search documentation" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        <div class="dark-mode-container">
+            <i class="moon-icon fa fa-moon-o"></i>
+            <i data-toggle="dark-mode-toggle" class="dark-mode-toggler fa fa-toggle-off"></i>
+        </div>
+    </div>
+
+    
+        
+        <div class="rst-content">
+        
           
 
-          <div class="body" role="main">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Rell Integration</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/ft3/ft3-rell-ft3-integration.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
             
   <div class="section" id="rell-integration">
 <h1>Rell Integration<a class="headerlink" href="#rell-integration" title="Permalink to this headline">¶</a></h1>
@@ -40,38 +207,38 @@
 <h2>Defining dapp_account entity<a class="headerlink" href="#defining-dapp-account-entity" title="Permalink to this headline">¶</a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">account</span></code> entity provided by <code class="docutils literal notranslate"><span class="pre">.lib.ft3.account</span></code> module can be used for account management. But your dapp might need to record more information about the user, like username, email address, etc. We can add an an entity to record those information.</p>
 <p>An example dapp’s account could be defined as:</p>
-<div class="highlight-rell notranslate"><div class="highlight"><pre><span></span>import acc: .lib.ft3.account;
+<div class="highlight-rell notranslate"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="nv">acc</span><span class="p">:</span> <span class="p">.</span><span class="nv">lib</span><span class="p">.</span><span class="nv">ft3</span><span class="p">.</span><span class="nv">account</span><span class="p">;</span>
 
-entity dapp_account {
-  key account: acc.account;
-  key first_name: text;
-  key last_name: text;
-  index age: integer;
-}
+<span class="k">entity</span> <span class="nv">dapp_account</span> <span class="p">{</span>
+  <span class="k">key</span> <span class="nv">account</span><span class="p">:</span> <span class="nv">acc</span><span class="p">.</span><span class="nv">account</span><span class="p">;</span>
+  <span class="k">key</span> <span class="nv">first_name</span><span class="p">:</span> <span class="nv">text</span><span class="p">;</span>
+  <span class="k">key</span> <span class="nv">last_name</span><span class="p">:</span> <span class="nv">text</span><span class="p">;</span>
+  <span class="k">index</span> <span class="nv">age</span><span class="p">:</span> <span class="nv">integer</span><span class="p">;</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <p>In this user model, there is no public key or user ID. Those details are provided by <code class="docutils literal notranslate"><span class="pre">acc.account</span></code>.</p>
 <p><code class="docutils literal notranslate"><span class="pre">acc.account</span></code> has an <code class="docutils literal notranslate"><span class="pre">id</span></code> property which uniquely identifies an account, and access is controlled by <code class="docutils literal notranslate"><span class="pre">acc.account_auth_descriptor</span></code> which include user’s public key.</p>
 <p>The underlying structure of <code class="docutils literal notranslate"><span class="pre">acc.account</span></code> and <code class="docutils literal notranslate"><span class="pre">acc.account_auth_descriptor</span></code> is explained in <a class="reference internal" href="ft3-features.html#ft3-account-management"><span class="std std-ref">Account Management</span></a>.</p>
 <p>After <code class="docutils literal notranslate"><span class="pre">dapp_account</span></code> entity is defined, the next step is to define operation used to create an instance of <code class="docutils literal notranslate"><span class="pre">dapp_account</span></code>:</p>
-<div class="highlight-rell notranslate"><div class="highlight"><pre><span></span>operation create_dapp_account(
-  firstname: text,
-  lastname: text;
-  age: integer;
-  user_auth: acc.auth_descriptor
-) {
-  val account_id = acc.create_account_with_auth(user_auth);
-  create dapp_account (
-    first_name = firstname,
-    last_name = lastname,
-    age,
-    acc.account @ { account_id }
-  );
-}
+<div class="highlight-rell notranslate"><div class="highlight"><pre><span></span><span class="k">operation</span> <span class="nv">create_dapp_account</span><span class="p">(</span>
+  <span class="nv">firstname</span><span class="p">:</span> <span class="nv">text</span><span class="p">,</span>
+  <span class="nv">lastname</span><span class="p">:</span> <span class="nv">text</span><span class="p">;</span>
+  <span class="nv">age</span><span class="p">:</span> <span class="nv">integer</span><span class="p">;</span>
+  <span class="nv">user_auth</span><span class="p">:</span> <span class="nv">acc</span><span class="p">.</span><span class="nv">auth_descriptor</span>
+<span class="p">)</span> <span class="p">{</span>
+  <span class="k">val</span> <span class="nv">account_id</span> <span class="o">=</span> <span class="nv">acc</span><span class="p">.</span><span class="nv">create_account_with_auth</span><span class="p">(</span><span class="nv">user_auth</span><span class="p">);</span>
+  <span class="k">create</span> <span class="nv">dapp_account</span> <span class="p">(</span>
+    <span class="nv">first_name</span> <span class="o">=</span> <span class="nv">firstname</span><span class="p">,</span>
+    <span class="nv">last_name</span> <span class="o">=</span> <span class="nv">lastname</span><span class="p">,</span>
+    <span class="nv">age</span><span class="p">,</span>
+    <span class="nv">acc</span><span class="p">.</span><span class="nv">account</span> <span class="p">@</span> <span class="p">{</span> <span class="nv">account_id</span> <span class="p">}</span>
+  <span class="p">);</span>
+<span class="p">}</span>
 
-query get_dapp_accounts() {
-  return dapp_account @? {} ( id = dapp_account.account.id, first_name = .first_name, last_name = .last_name, age = .age);
-}
+<span class="k">query</span> <span class="nv">get_dapp_accounts</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nv">dapp_account</span> <span class="p">@</span><span class="o">?</span> <span class="p">{}</span> <span class="p">(</span> <span class="nv">id</span> <span class="o">=</span> <span class="nv">dapp_account</span><span class="p">.</span><span class="nv">account</span><span class="p">.</span><span class="nv">id</span><span class="p">,</span> <span class="nv">first_name</span> <span class="o">=</span> <span class="p">.</span><span class="nv">first_name</span><span class="p">,</span> <span class="nv">last_name</span> <span class="o">=</span> <span class="p">.</span><span class="nv">last_name</span><span class="p">,</span> <span class="nv">age</span> <span class="o">=</span> <span class="p">.</span><span class="nv">age</span><span class="p">);</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <p>Restart the node for changes to take effect. Because we have changed database structure, we need to add <code class="docutils literal notranslate"><span class="pre">-W</span></code> option to delete the database and add new <code class="docutils literal notranslate"><span class="pre">dapp_account</span></code> table:</p>
@@ -144,7 +311,7 @@ query get_dapp_accounts() {
 <h3>Account Module<a class="headerlink" href="#account-module" title="Permalink to this headline">¶</a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">acc:</span> <span class="pre">.lib.ft3.account;</span></code></p>
 <p><strong>Functions:</strong></p>
-<div class="highlight-rell notranslate"><div class="highlight"><pre><span></span>function create_account_with_auth (auth_descriptor): byte_array
+<div class="highlight-rell notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="nv">create_account_with_auth</span> <span class="p">(</span><span class="nv">auth_descriptor</span><span class="p">):</span> <span class="nv">byte_array</span>
 </pre></div>
 </div>
 <p>Create a new FT3 account using the provided <code class="docutils literal notranslate"><span class="pre">ft3.account.auth_descriptor</span></code></p>
@@ -152,7 +319,7 @@ query get_dapp_accounts() {
 <li><p><code class="docutils literal notranslate"><span class="pre">auth_descriptor</span></code>: The <code class="docutils literal notranslate"><span class="pre">auth_descriptor</span></code> used to create this account.</p></li>
 <li><p>return: <code class="docutils literal notranslate"><span class="pre">account.id</span></code> (equal to <code class="docutils literal notranslate"><span class="pre">auth_descriptor.hash()</span></code>)</p></li>
 </ul>
-<div class="highlight-rell notranslate"><div class="highlight"><pre><span></span>function auth_and_log(account_id: byte_array, auth_descriptor_id: byte_array, required_flags: list&lt;text&gt;): account
+<div class="highlight-rell notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="nv">auth_and_log</span><span class="p">(</span><span class="nv">account_id</span><span class="p">:</span> <span class="nv">byte_array</span><span class="p">,</span> <span class="nv">auth_descriptor_id</span><span class="p">:</span> <span class="nv">byte_array</span><span class="p">,</span> <span class="nv">required_flags</span><span class="p">:</span> <span class="k">list</span><span class="o">&lt;</span><span class="nv">text</span><span class="o">&gt;</span><span class="p">):</span> <span class="nv">account</span>
 </pre></div>
 </div>
 <p>Authorize given auth_descriptor for required authorization flags, and apply the rate limiter constrains configurated in <code class="docutils literal notranslate"><span class="pre">config.template.xml</span></code>. This is meant to be the default authorization mechanism for operations.</p>
@@ -162,34 +329,34 @@ query get_dapp_accounts() {
 <li><p><code class="docutils literal notranslate"><span class="pre">required_flags</span></code>: list of required authorization flags (see <a class="reference internal" href="ft3-features.html#ft3-account-management"><span class="std std-ref">Account Management</span></a>)</p></li>
 <li><p>return: the account instance</p></li>
 </ul>
-<div class="highlight-rell notranslate"><div class="highlight"><pre><span></span>function require_auth (account, descriptor_id: byte_array, required_flags: list&lt;text&gt;)
+<div class="highlight-rell notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="nv">require_auth</span> <span class="p">(</span><span class="nv">account</span><span class="p">,</span> <span class="nv">descriptor_id</span><span class="p">:</span> <span class="nv">byte_array</span><span class="p">,</span> <span class="nv">required_flags</span><span class="p">:</span> <span class="k">list</span><span class="o">&lt;</span><span class="nv">text</span><span class="o">&gt;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Authorize given auth_descriptor, but does not apply rate limiter’s constrains.</p>
-<div class="highlight-rell notranslate"><div class="highlight"><pre><span></span>function _add_auth_descriptor (account, auth_descriptor)
-function _delete_auth_descriptor(auth_descriptor: account_auth_descriptor)
-function _delete_all_auth_descriptors_exclude(account, auth_descriptor_id: byte_array)
+<div class="highlight-rell notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="nv">_add_auth_descriptor</span> <span class="p">(</span><span class="nv">account</span><span class="p">,</span> <span class="nv">auth_descriptor</span><span class="p">)</span>
+<span class="k">function</span> <span class="nv">_delete_auth_descriptor</span><span class="p">(</span><span class="nv">auth_descriptor</span><span class="p">:</span> <span class="nv">account_auth_descriptor</span><span class="p">)</span>
+<span class="k">function</span> <span class="nv">_delete_all_auth_descriptors_exclude</span><span class="p">(</span><span class="nv">account</span><span class="p">,</span> <span class="nv">auth_descriptor_id</span><span class="p">:</span> <span class="nv">byte_array</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Utilities for managing auth_descriptors.</p>
 <p><strong>Operations:</strong></p>
-<div class="highlight-rell notranslate"><div class="highlight"><pre><span></span>operation delete_auth_descriptor (account_id: byte_array, auth_descriptor_id: byte_array, delete_descriptor_id: byte_array)
+<div class="highlight-rell notranslate"><div class="highlight"><pre><span></span><span class="k">operation</span> <span class="nv">delete_auth_descriptor</span> <span class="p">(</span><span class="nv">account_id</span><span class="p">:</span> <span class="nv">byte_array</span><span class="p">,</span> <span class="nv">auth_descriptor_id</span><span class="p">:</span> <span class="nv">byte_array</span><span class="p">,</span> <span class="nv">delete_descriptor_id</span><span class="p">:</span> <span class="nv">byte_array</span><span class="p">)</span>
 
-operation delete_all_auth_descriptors_exclude(account_id: byte_array, auth_descriptor_id: byte_array)
+<span class="k">operation</span> <span class="nv">delete_all_auth_descriptors_exclude</span><span class="p">(</span><span class="nv">account_id</span><span class="p">:</span> <span class="nv">byte_array</span><span class="p">,</span> <span class="nv">auth_descriptor_id</span><span class="p">:</span> <span class="nv">byte_array</span><span class="p">)</span>
 
-operation add_auth_descriptor (account_id: byte_array, auth_id: byte_array, new_desc: acc.auth_descriptor)
+<span class="k">operation</span> <span class="nv">add_auth_descriptor</span> <span class="p">(</span><span class="nv">account_id</span><span class="p">:</span> <span class="nv">byte_array</span><span class="p">,</span> <span class="nv">auth_id</span><span class="p">:</span> <span class="nv">byte_array</span><span class="p">,</span> <span class="nv">new_desc</span><span class="p">:</span> <span class="nv">acc</span><span class="p">.</span><span class="nv">auth_descriptor</span><span class="p">)</span>
 </pre></div>
 </div>
 <p><strong>Queries:</strong></p>
-<div class="highlight-rell notranslate"><div class="highlight"><pre><span></span>query get_account_auth_descriptors(id: byte_array)
+<div class="highlight-rell notranslate"><div class="highlight"><pre><span></span><span class="k">query</span> <span class="nv">get_account_auth_descriptors</span><span class="p">(</span><span class="nv">id</span><span class="p">:</span> <span class="nv">byte_array</span><span class="p">)</span>
 
-query get_account_by_id(id: byte_array)
+<span class="k">query</span> <span class="nv">get_account_by_id</span><span class="p">(</span><span class="nv">id</span><span class="p">:</span> <span class="nv">byte_array</span><span class="p">)</span>
 
-query get_account_by_auth_descriptor(auth_descriptor)
+<span class="k">query</span> <span class="nv">get_account_by_auth_descriptor</span><span class="p">(</span><span class="nv">auth_descriptor</span><span class="p">)</span>
 
-query get_accounts_by_participant_id(id: byte_array)
+<span class="k">query</span> <span class="nv">get_accounts_by_participant_id</span><span class="p">(</span><span class="nv">id</span><span class="p">:</span> <span class="nv">byte_array</span><span class="p">)</span>
 
-query get_accounts_by_auth_descriptor_id(descriptor_id: byte_array)
+<span class="k">query</span> <span class="nv">get_accounts_by_auth_descriptor_id</span><span class="p">(</span><span class="nv">descriptor_id</span><span class="p">:</span> <span class="nv">byte_array</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -197,78 +364,78 @@ query get_accounts_by_auth_descriptor_id(descriptor_id: byte_array)
 <h3>Core Module<a class="headerlink" href="#core-module" title="Permalink to this headline">¶</a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">core:</span> <span class="pre">.lib.ft3.core;</span></code></p>
 <p><strong>Functions:</strong></p>
-<div class="highlight-rell notranslate"><div class="highlight"><pre><span></span>function register_asset (name, issuing_chain_rid: byte_array): asset
+<div class="highlight-rell notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="nv">register_asset</span> <span class="p">(</span><span class="nv">name</span><span class="p">,</span> <span class="nv">issuing_chain_rid</span><span class="p">:</span> <span class="nv">byte_array</span><span class="p">):</span> <span class="nv">asset</span>
 </pre></div>
 </div>
 <p>Register a new asset on the chain.</p>
-<div class="highlight-rell notranslate"><div class="highlight"><pre><span></span>function _get_asset_balances(account_id: byte_array): list&lt;(id:byte_array,name:text,amount:integer,chain_id:byte_array)&gt;
+<div class="highlight-rell notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="nv">_get_asset_balances</span><span class="p">(</span><span class="nv">account_id</span><span class="p">:</span> <span class="nv">byte_array</span><span class="p">):</span> <span class="k">list</span><span class="o">&lt;</span><span class="p">(</span><span class="nv">id</span><span class="p">:</span><span class="nv">byte_array</span><span class="p">,</span><span class="nv">name</span><span class="p">:</span><span class="nv">text</span><span class="p">,</span><span class="nv">amount</span><span class="p">:</span><span class="nv">integer</span><span class="p">,</span><span class="nv">chain_id</span><span class="p">:</span><span class="nv">byte_array</span><span class="p">)</span><span class="o">&gt;</span>
 </pre></div>
 </div>
 <p>Get asset balance of an account.</p>
-<div class="highlight-rell notranslate"><div class="highlight"><pre><span></span>function ensure_balance(acc.account, asset): balance
+<div class="highlight-rell notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="nv">ensure_balance</span><span class="p">(</span><span class="nv">acc</span><span class="p">.</span><span class="nv">account</span><span class="p">,</span> <span class="nv">asset</span><span class="p">):</span> <span class="nv">balance</span>
 </pre></div>
 </div>
 <p>Get account’s balance of an asset, or create one if it doesn’t exist.</p>
-<div class="highlight-rell notranslate"><div class="highlight"><pre><span></span>struct xfer_input {
-  account_id: byte_array;
-  asset_id: byte_array;
-  auth_descriptor_id: byte_array;
-  amount: integer;
-  extra: map&lt;text, gtv&gt;;
-}
+<div class="highlight-rell notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span> <span class="nv">xfer_input</span> <span class="p">{</span>
+  <span class="nv">account_id</span><span class="p">:</span> <span class="nv">byte_array</span><span class="p">;</span>
+  <span class="nv">asset_id</span><span class="p">:</span> <span class="nv">byte_array</span><span class="p">;</span>
+  <span class="nv">auth_descriptor_id</span><span class="p">:</span> <span class="nv">byte_array</span><span class="p">;</span>
+  <span class="nv">amount</span><span class="p">:</span> <span class="nv">integer</span><span class="p">;</span>
+  <span class="nv">extra</span><span class="p">:</span> <span class="k">map</span><span class="o">&lt;</span><span class="nv">text</span><span class="p">,</span> <span class="nv">gtv</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="p">}</span>
 
-struct xfer_output {
-  account_id: byte_array;
-  asset_id: byte_array;
-  amount: integer;
-  extra: map&lt;text, gtv&gt;;
-}
+<span class="k">struct</span> <span class="nv">xfer_output</span> <span class="p">{</span>
+  <span class="nv">account_id</span><span class="p">:</span> <span class="nv">byte_array</span><span class="p">;</span>
+  <span class="nv">asset_id</span><span class="p">:</span> <span class="nv">byte_array</span><span class="p">;</span>
+  <span class="nv">amount</span><span class="p">:</span> <span class="nv">integer</span><span class="p">;</span>
+  <span class="nv">extra</span><span class="p">:</span> <span class="k">map</span><span class="o">&lt;</span><span class="nv">text</span><span class="p">,</span> <span class="nv">gtv</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="p">}</span>
 
-function _transfer (inputs: list&lt;xfer_input&gt;, outputs: list&lt;xfer_output&gt;)
+<span class="k">function</span> <span class="nv">_transfer</span> <span class="p">(</span><span class="nv">inputs</span><span class="p">:</span> <span class="k">list</span><span class="o">&lt;</span><span class="nv">xfer_input</span><span class="o">&gt;</span><span class="p">,</span> <span class="nv">outputs</span><span class="p">:</span> <span class="k">list</span><span class="o">&lt;</span><span class="nv">xfer_output</span><span class="o">&gt;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Perform an asset transfer from accounts described in <code class="docutils literal notranslate"><span class="pre">xfer_input</span></code> to accounts in <code class="docutils literal notranslate"><span class="pre">xfer_output</span></code>.</p>
 <p>If <code class="docutils literal notranslate"><span class="pre">xfer_output.extra</span></code> map contains a <code class="docutils literal notranslate"><span class="pre">reg_auth_desc</span></code> key, then the value will be used as <code class="docutils literal notranslate"><span class="pre">auth_descriptor</span></code> to create a new account (meaning you can create a new account then transfer asset to it immediately in one transaction).</p>
 <p>Using the transaction function in Rell could look something like this:</p>
-<div class="highlight-rell notranslate"><div class="highlight"><pre><span></span>function transfer_balance(from: user_account,    //user_account being an entity with an acc.account attribute.
-                          from_auth: acc.auth_descriptor
-                          to: user_account, to_auth: acc.auth_descriptor,
-                          amount:integer){
-    val input = ft3.xfer_input(account_id = from.account.id
-                               asset_id = exampleToken.token.id,
-                               auth_descriptor_id = from_auth,
-                               amount = amount,
-                               extra = map&lt;text, gtv&gt;()
-                               );
-    val output = ft3.xfer_input(account_id = to.account.id,
-                                asset_id = exampleToken.token.id,
-                                auth_descriptor_id = to_auth,
-                                amount = amount,
-                                extra = map&lt;text, gtv&gt;()
-                             );
-     val inputs = list&lt;ft3.xfer_input&gt;();
-     inputs.add(input);
-     outputs.add(output);
-     ft3._transfer(inputs, outputs);
-}
+<div class="highlight-rell notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="nv">transfer_balance</span><span class="p">(</span><span class="nv">from</span><span class="p">:</span> <span class="nv">user_account</span><span class="p">,</span>    <span class="c1">//user_account being an entity with an acc.account attribute.</span>
+                          <span class="nv">from_auth</span><span class="p">:</span> <span class="nv">acc</span><span class="p">.</span><span class="nv">auth_descriptor</span>
+                          <span class="nv">to</span><span class="p">:</span> <span class="nv">user_account</span><span class="p">,</span> <span class="nv">to_auth</span><span class="p">:</span> <span class="nv">acc</span><span class="p">.</span><span class="nv">auth_descriptor</span><span class="p">,</span>
+                          <span class="nv">amount</span><span class="p">:</span><span class="nv">integer</span><span class="p">){</span>
+    <span class="k">val</span> <span class="nv">input</span> <span class="o">=</span> <span class="nv">ft3</span><span class="p">.</span><span class="nv">xfer_input</span><span class="p">(</span><span class="nv">account_id</span> <span class="o">=</span> <span class="nv">from</span><span class="p">.</span><span class="nv">account</span><span class="p">.</span><span class="nv">id</span>
+                               <span class="nv">asset_id</span> <span class="o">=</span> <span class="nv">exampleToken</span><span class="p">.</span><span class="nv">token</span><span class="p">.</span><span class="nv">id</span><span class="p">,</span>
+                               <span class="nv">auth_descriptor_id</span> <span class="o">=</span> <span class="nv">from_auth</span><span class="p">,</span>
+                               <span class="nv">amount</span> <span class="o">=</span> <span class="nv">amount</span><span class="p">,</span>
+                               <span class="nv">extra</span> <span class="o">=</span> <span class="k">map</span><span class="o">&lt;</span><span class="nv">text</span><span class="p">,</span> <span class="nv">gtv</span><span class="o">&gt;</span><span class="p">()</span>
+                               <span class="p">);</span>
+    <span class="k">val</span> <span class="nv">output</span> <span class="o">=</span> <span class="nv">ft3</span><span class="p">.</span><span class="nv">xfer_input</span><span class="p">(</span><span class="nv">account_id</span> <span class="o">=</span> <span class="nv">to</span><span class="p">.</span><span class="nv">account</span><span class="p">.</span><span class="nv">id</span><span class="p">,</span>
+                                <span class="nv">asset_id</span> <span class="o">=</span> <span class="nv">exampleToken</span><span class="p">.</span><span class="nv">token</span><span class="p">.</span><span class="nv">id</span><span class="p">,</span>
+                                <span class="nv">auth_descriptor_id</span> <span class="o">=</span> <span class="nv">to_auth</span><span class="p">,</span>
+                                <span class="nv">amount</span> <span class="o">=</span> <span class="nv">amount</span><span class="p">,</span>
+                                <span class="nv">extra</span> <span class="o">=</span> <span class="k">map</span><span class="o">&lt;</span><span class="nv">text</span><span class="p">,</span> <span class="nv">gtv</span><span class="o">&gt;</span><span class="p">()</span>
+                             <span class="p">);</span>
+     <span class="k">val</span> <span class="nv">inputs</span> <span class="o">=</span> <span class="k">list</span><span class="o">&lt;</span><span class="nv">ft3</span><span class="p">.</span><span class="nv">xfer_input</span><span class="o">&gt;</span><span class="p">();</span>
+     <span class="nv">inputs</span><span class="p">.</span><span class="nv">add</span><span class="p">(</span><span class="nv">input</span><span class="p">);</span>
+     <span class="nv">outputs</span><span class="p">.</span><span class="nv">add</span><span class="p">(</span><span class="nv">output</span><span class="p">);</span>
+     <span class="nv">ft3</span><span class="p">.</span><span class="nv">_transfer</span><span class="p">(</span><span class="nv">inputs</span><span class="p">,</span> <span class="nv">outputs</span><span class="p">);</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <p><strong>Operations:</strong></p>
-<div class="highlight-rell notranslate"><div class="highlight"><pre><span></span>operation transfer (inputs: list&lt;ft3.xfer_input&gt;, outputs: list&lt;ft3.xfer_output&gt;)
+<div class="highlight-rell notranslate"><div class="highlight"><pre><span></span><span class="k">operation</span> <span class="nv">transfer</span> <span class="p">(</span><span class="nv">inputs</span><span class="p">:</span> <span class="k">list</span><span class="o">&lt;</span><span class="nv">ft3</span><span class="p">.</span><span class="nv">xfer_input</span><span class="o">&gt;</span><span class="p">,</span> <span class="nv">outputs</span><span class="p">:</span> <span class="k">list</span><span class="o">&lt;</span><span class="nv">ft3</span><span class="p">.</span><span class="nv">xfer_output</span><span class="o">&gt;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p><strong>Queries:</strong></p>
-<div class="highlight-rell notranslate"><div class="highlight"><pre><span></span>query get_asset_balances(account_id: byte_array)
+<div class="highlight-rell notranslate"><div class="highlight"><pre><span></span><span class="k">query</span> <span class="nv">get_asset_balances</span><span class="p">(</span><span class="nv">account_id</span><span class="p">:</span> <span class="nv">byte_array</span><span class="p">)</span>
 
-query get_asset_balance(account_id: byte_array, asset_id: byte_array)
+<span class="k">query</span> <span class="nv">get_asset_balance</span><span class="p">(</span><span class="nv">account_id</span><span class="p">:</span> <span class="nv">byte_array</span><span class="p">,</span> <span class="nv">asset_id</span><span class="p">:</span> <span class="nv">byte_array</span><span class="p">)</span>
 
-query get_asset_by_name(name)
+<span class="k">query</span> <span class="nv">get_asset_by_name</span><span class="p">(</span><span class="nv">name</span><span class="p">)</span>
 
-query get_asset_by_id(asset_id: byte_array)
+<span class="k">query</span> <span class="nv">get_asset_by_id</span><span class="p">(</span><span class="nv">asset_id</span><span class="p">:</span> <span class="nv">byte_array</span><span class="p">)</span>
 
-query get_all_assets()
+<span class="k">query</span> <span class="nv">get_all_assets</span><span class="p">()</span>
 
-query get_payment_history(account_id: byte_array, after_block: integer)
+<span class="k">query</span> <span class="nv">get_payment_history</span><span class="p">(</span><span class="nv">account_id</span><span class="p">:</span> <span class="nv">byte_array</span><span class="p">,</span> <span class="nv">after_block</span><span class="p">:</span> <span class="nv">integer</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -276,84 +443,46 @@ query get_payment_history(account_id: byte_array, after_block: integer)
 </div>
 
 
+           </div>
+           
           </div>
-          
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="ft3-single-sign-on.html" class="btn btn-neutral float-right" title="Single Sign-on (SSO)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="ft3-javascript-library.html" class="btn btn-neutral float-left" title="Javascript library" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+
+    </p>
+  </div> 
+
+</footer>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-<h1 class="logo"><a href="../index.html">FT3-Documentation</a></h1>
 
+    </section>
 
+  </div>
+  
 
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
 
-
-
-
-
-<h3>Navigation</h3>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="ft3-features.html">Features</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ft3-project-setup.html">Project Setup</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ft3-javascript-library.html">Javascript library</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Rell Integration</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#defining-dapp-account-entity">Defining dapp_account entity</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#modules">Modules</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#account-module">Account Module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#core-module">Core Module</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="ft3-single-sign-on.html">Single Sign-on (SSO)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ft3-updating-a-chain.html">How to update a dapp chain</a></li>
-</ul>
-
-<div class="relations">
-<h3>Related Topics</h3>
-<ul>
-  <li><a href="../index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="ft3-javascript-library.html" title="previous chapter">Javascript library</a></li>
-      <li>Next: <a href="ft3-single-sign-on.html" title="next chapter">Single Sign-on (SSO)</a></li>
-  </ul></li>
-</ul>
-</div>
-<div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
-      <input type="submit" value="Go" />
-    </form>
-    </div>
-</div>
-<script>$('#searchbox').show(0);</script>
-
-
-
-
-
-
-
-
-        </div>
-      </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="footer">
-      &copy;2021, Ernst Kapp.
-      
-      |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.4.3</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
-      
-      |
-      <a href="../_sources/ft3/ft3-rell-ft3-integration.rst.txt"
-          rel="nofollow">Page source</a>
-    </div>
-
+  
+  
     
+  
+    <script src="../_static/side-nav-icons.js"></script>
+    <script src="../_static/dark-mode-on-load.js"></script>
+    <script src="../_static/get-news.js"></script>
 
-    
-  </body>
+
+</body>
 </html>

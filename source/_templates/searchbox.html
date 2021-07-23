@@ -1,0 +1,13 @@
+{#- This template is part of the rtd-theme and it is included 
+    here so that changes can be made and override the theme #}
+
+{%- if 'singlehtml' not in builder %}
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="{{ pathto('search') }}" method="get">
+    <i class="fa fa-search input-icon"></i>
+    <input class="search-text" type="text" name="q" placeholder="{{ _('Search documentation') }}" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+{%- endif %}

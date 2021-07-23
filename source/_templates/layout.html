@@ -1,0 +1,105 @@
+{#- This template is the child of the default rtd layout.html
+    and overrides certain blocks to customize the theme #}
+
+{%- extends "!layout.html" %}
+
+{%- block extrabody %} 
+{#- CUSTOM TOP CHROMIA-HEADER #}
+<div class="dev-header">
+    <nav class="chromia-nav">
+
+        <a class="navbar-brand" href="https://chromia.com/developers/">
+            <img class="nav-icon" src="{{ pathto('_static/dev-logo.svg', 1) }}" alt="Chromia Developers Logo">
+        </a>
+
+        <div class="chromia-nav-links">
+                <div>
+                    <a class="chromia-nav-link" href="https://chromia.com">Home</a>
+                </div>
+                <div>
+                    <a class="chromia-nav-link" href="https://rell.chromia.com">Documentation</a>
+                </div>
+                <div>
+                    <a class="chromia-nav-link" href="https://rellide-staging.chromia.dev/">Web IDE</a>
+                </div>
+                <div>
+                    <a class="chromia-nav-link" href="https://t.me/ChromiaDev">Community</a>
+                </div>
+        </div>
+
+        {#- MENU BUTTON, TOGGLES ON MOBILE #}
+        <i id="hamburger-menu" class="fa fa-bars"></i>
+    </nav>
+</div>
+{% endblock %}
+
+{%- block sidebartitle %}
+    {%- if logo and theme_logo_only %}
+        <a class="main-logo" href="{{ pathto(master_doc) }}">
+    {%- else %}
+        <a href="{{ pathto(master_doc) }}" class="icon icon-home"> {{ project }}
+    {%- endif %}
+
+    {%- if logo %}
+        {#- Not strictly valid HTML, but it's the only way to display/scale
+            it properly, without weird scripting or heaps of work #}
+        <img src="{{ pathto('_static/' + logo, 1) }}" class="logo" alt="{{ _('Logo') }}"/>
+    {%- endif %}
+    </a>
+
+    {%- if theme_display_version %}
+        {%- set nav_version = version %}
+        {%- if READTHEDOCS and current_version %}
+            {%- set nav_version = current_version %}
+        {%- endif %}
+        {#-
+        {%- if nav_version %}
+            <div class="version">
+            {{ nav_version }}
+            </div>
+        {%- endif %}
+        #}
+    {%- endif %}
+
+    {#- NEWS FLASH #}
+    <div class="news-flash">
+        <img class="news-icon" src="{{ pathto('_static/news-icon.svg', 1) }}">
+    </div>
+
+    <hr class="wy-side-hr">
+{%- endblock %}
+
+{%- block mobile_nav %}
+    <i data-toggle="wy-nav-top" id="menu-arrow-right" class="fa fa-angle-right"></i>
+    <div class="dark-mode-container">
+        <i class="moon-icon fa fa-moon-o"></i>
+        <i data-toggle="dark-mode-toggle" class="dark-mode-toggler fa fa-toggle-off"></i>
+    </div>
+    <div class="wy-nav-top-title">
+        <a href="{{ pathto(master_doc) }}">{{ project }}</a>
+    </div>
+    <i id="search-button" class="fa fa-search"></i>
+    <i data-toggle="wy-nav-top" id="menu-arrow-down" class="fa fa-angle-down"></i>
+{%- endblock %}
+
+{%- block content %}
+    {#- CUSTOM SEARCH BAR #}
+    <div class="wy-content-search">
+        {%- include "searchbox.html" %}
+        <div class="dark-mode-container">
+            <i class="moon-icon fa fa-moon-o"></i>
+            <i data-toggle="dark-mode-toggle" class="dark-mode-toggler fa fa-toggle-off"></i>
+        </div>
+    </div>
+
+    {{ super() }}
+{%- endblock %}
+
+{%- block footer %}
+    <script src="{{ pathto('_static/side-nav-icons.js', 1) }}"></script>
+    <script src="{{ pathto('_static/dark-mode-on-load.js', 1) }}"></script>
+    <script src="{{ pathto('_static/get-news.js', 1) }}"></script>
+{% endblock %}
+
+
+
