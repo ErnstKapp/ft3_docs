@@ -11,7 +11,8 @@ FT3 is the recommended standards to handle accounts and tokens in the Chromia ec
 FT3 consists of a Rell module which contains blockchain logic, and client side lib which provides js API for interaction with the module.
 
 .. toctree::
-   
+
+   chromia-vault.rst
    ft3/ft3-features.rst
    ft3/ft3-project-setup.rst
    ft3/ft3-javascript-library.rst
